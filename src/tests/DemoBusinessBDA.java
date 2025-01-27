@@ -50,7 +50,7 @@ public class DemoBusinessBDA {
 		}
 		
 		// Places
-		List<Place> places = PlacePersistence.getPlaces("musée");
+		List<Place> places = PlacePersistence.getPlaces("National");
 		
 		for (Place place : places) {
 			System.out.println("========= Place : "

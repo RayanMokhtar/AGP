@@ -19,8 +19,8 @@ import persistence.extendeddb.lucene.Indexer;
 public class MixedQueryTest {
 	@Test
 	void testMixedQuery() {
-		Path sourcePath = Paths.get("C:\\Data");
-		Path indexPath = Paths.get("C:\\Index");
+		Path sourcePath = Paths.get("C:\\Users\\darkf\\Desktop\\java_workspace\\AGP\\AGP_DB\\Description");
+		Path indexPath = Paths.get("C:\\Users\\darkf\\Desktop\\java_workspace\\AGP\\AGP_DB\\Index");
 		
 		SQLConfiguration sqlConfiguration = new SQLConfiguration(
 				"mysql",
@@ -45,7 +45,7 @@ public class MixedQueryTest {
 			index.close();
 			
 			ExtendedDatabaseAPI database = new ExtendedDatabaseAPI(sqlConfiguration, textualConfiguration);
-			MixedResults sqlResults = database.mixedQuery("SELECT name, type FROM Place WITH musée");
+			MixedResults sqlResults = database.mixedQuery("SELECT name, type FROM Place WITH musï¿½e");
 			
 			for(MixedResult result : sqlResults) {
 				assertNotNull(result.getContent());

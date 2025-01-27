@@ -24,8 +24,8 @@ public class Database {
 	private static String password = "Pmlpmlpmlk000";
 	
 	// Textual queries configuration
-	private static Path sourcePath = Paths.get("C:\\Data");
-	private static Path indexPath = Paths.get("C:\\Index");
+	private static Path sourcePath = Paths.get("C:\\Users\\darkf\\Desktop\\java_workspace\\AGP\\AGP_DB\\Description");
+	private static Path indexPath = Paths.get("C:\\Users\\darkf\\Desktop\\java_workspace\\AGP\\AGP_DB\\Index");
 	private static String table = "Place";
 	private static String joinKey = "id";
 	

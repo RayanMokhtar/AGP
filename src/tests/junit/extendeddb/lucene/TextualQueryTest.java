@@ -21,8 +21,8 @@ class TextualQueryTest {
 	
 	@Test
 	void testTextualQuery() {
-		Path sourcePath = Paths.get("C:\\Data");
-		Path indexPath = Paths.get("C:\\Index");
+		Path sourcePath = Paths.get("C:\\Users\\darkf\\Desktop\\java_workspace\\AGP\\AGP_DB\\Description");
+		Path indexPath = Paths.get("C:\\Users\\darkf\\Desktop\\java_workspace\\AGP\\AGP_DB\\Index");
 		
 		SQLConfiguration sqlConfiguration = new SQLConfiguration(
 				"mysql",
