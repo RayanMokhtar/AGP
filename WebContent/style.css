@@ -1,0 +1,61 @@
+/*les bases*/
+
+*{margin:0; padding:0;}
+
+html{
+	background:url(fond/plage.jpeg) fixed no-repeat;
+	background-size: cover;
+	}
+
+
+body {
+	/*margin:20px;*/
+	display:block;
+	margin-top:5%;
+	/*border-radius:20px;*/
+	padding:5%;
+	padding-top:2%;
+	padding-bottom:2%;
+	background-color: rgba(8, 18, 20, 0.7 );
+	color:#ffffff;
+	text-align:left;
+}
+
+body h1 {
+	color:  #a1ebf2;
+	font-size:35px;
+	text-shadow: (2px,2px,2px, black)
+	text-align:center;
+}
+body h2 {
+	font-size:20px;
+}
+	
+body form{
+	color: #ffffff;
+	text-align:justify;
+	text-align:left;
+}
+	
+
+body form p{
+	color: #ffffff;
+	/*text-align:justify;*/
+	/*text-align:left;*/
+}	
+	
+	
+
+
+footer{
+	background-color: rgba(8, 18, 20, 0.9 );
+	color:#ffffff;
+	/*position:absolute;
+	bottom:0px;*/
+	width:100%;
+	margin-top:200px;
+}
+
+footer a{
+	color:#ffffff;
+}
