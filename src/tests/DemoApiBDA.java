@@ -27,8 +27,8 @@ public class DemoApiBDA {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Path sourcePath = Paths.get("C:\\Users\\darkf\\Desktop\\java_workspace\\AGP\\AGP_DB\\Description");
-		Path indexPath = Paths.get("C:\\Users\\darkf\\Desktop\\java_workspace\\AGP\\AGP_DB\\Index");
+		Path sourcePath = Paths.get("AGP_DB", "Description");
+		Path indexPath = Paths.get("AGP_DB", "Index");
 		
 		try {
 			// Create an index and add documents
