@@ -150,6 +150,7 @@ public class OffersBuilder {
 		
 		double hotelPricePerDay = hotel.getPricePerDay();
 		double maximumCostPerDay = (maximumPrice * excursionsFrequency) / numberOfDays;
+		@SuppressWarnings("unused")
 		double maximumCostForThisDay;
 		double transportDuration;
 		double totalDuration;

@@ -40,6 +40,7 @@ public class ResultBean {
 	public List<SelectItem> getOffersSelected() {
 		List<SelectItem> items = new ArrayList<SelectItem>();
 		Iterator<Offer> supportedLocales = offers.iterator();
+		@SuppressWarnings("unused")
 		int index = 0;
 		
 		while (supportedLocales.hasNext()) {

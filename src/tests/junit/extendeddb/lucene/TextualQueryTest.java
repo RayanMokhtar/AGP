@@ -16,6 +16,7 @@ import persistence.extendeddb.lucene.TextualResult;
 import persistence.extendeddb.lucene.TextualResults;
 
 
+@SuppressWarnings("unused")
 class TextualQueryTest {
 	
 	@Test
@@ -38,12 +39,18 @@ class TextualQueryTest {
 				"id"
 		);
 		TextualResults result = new TextualResults();
+		@SuppressWarnings("unused")
 		int size = result.size();
+		@SuppressWarnings("unused")
 		boolean bool = result.hasNext();
 		TextualResult name = new TextualResult(1, 3, "test");
+		@SuppressWarnings("unused")
 		TextualResult text = result.next();
+		@SuppressWarnings("unused")
 		int id = name.getId();
+		@SuppressWarnings("unused")
 		int score = name.getScore();
+		@SuppressWarnings("unused")
 		String oui = name.getContent();
 		try {
 			Indexer index = new Indexer(sourcePath, indexPath);
@@ -56,7 +63,7 @@ class TextualQueryTest {
 			
 			ExtendedDatabaseAPI database = new ExtendedDatabaseAPI(sqlConfiguration, textualConfiguration);
 			
-			TextualResults textualResults = database.textualQuery("musée");
+			TextualResults textualResults = database.textualQuery("musï¿½e");
 			
 			for (TextualResult textualResult : textualResults) {
 				assertTrue(textualResult.getId() >= 0);

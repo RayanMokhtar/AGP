@@ -61,6 +61,7 @@ public class HotelsManager {
 	public static Hotel getNearestHotelFrom(Place place) {
 		double minimalDistance = Double.MAX_VALUE;
 		double distance;
+		@SuppressWarnings("unused")
 		boolean isOnTheSameIsland;
 		Hotel nearestHotel = null;
 		

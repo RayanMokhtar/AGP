@@ -27,8 +27,8 @@ public class DemoApiBDA {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Path sourcePath = Paths.get("C:\\Data");
-		Path indexPath = Paths.get("C:\\Index");
+		Path sourcePath = Paths.get("C:\\Users\\darkf\\Desktop\\java_workspace\\AGP\\AGP_DB\\Description");
+		Path indexPath = Paths.get("C:\\Users\\darkf\\Desktop\\java_workspace\\AGP\\AGP_DB\\Index");
 		
 		try {
 			// Create an index and add documents
@@ -49,10 +49,10 @@ public class DemoApiBDA {
 		
 		SQLConfiguration sqlConfiguration = new SQLConfiguration(
 				"mysql",
-				"localhost",
-				"travelDB",
-				"root",
-				"p@ssword"
+				"mysql-agp-antilles.alwaysdata.net",
+				"agp-antilles_bdd",
+				"396335",
+				"Pmlpmlpmlk000"
 		);
 		
 		TextualConfiguration textualConfiguration = new TextualConfiguration(
@@ -71,6 +71,7 @@ public class DemoApiBDA {
 			SQLResults sqlResults = database.simpleQuery("SELECT name, type FROM Place WHERE type = 'historic'");
 			
 			// Display the results with a for loop
+			System.out.println("Test de requete simple :\n");
 			for (SQLResult sqlResult : sqlResults) {
 				System.out.println(sqlResult.getAttribute("name"));
 			}
@@ -89,7 +90,7 @@ public class DemoApiBDA {
 			
 			// 2. Textual query
 			// ============================
-			TextualResults textualResults = database.textualQuery("musée");
+			TextualResults textualResults = database.textualQuery("musï¿½e");
 			
 			// Display the results with a for loop
 			for (TextualResult textualResult : textualResults) {
@@ -114,7 +115,7 @@ public class DemoApiBDA {
 			
 			// 3. Mixed query
 			// ============================
-			MixedResults mixedResults = database.mixedQuery("SELECT name, type FROM Place WITH musée");
+			MixedResults mixedResults = database.mixedQuery("SELECT name, type FROM Place WITH musï¿½e");
 			
 			// Display the results with a for loop
 			for (MixedResult mixedResult : mixedResults) {
