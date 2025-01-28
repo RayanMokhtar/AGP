@@ -9,17 +9,16 @@ import java.util.List;
 import business.Coordinates;
 import business.Island;
 import business.Site;
-import business.tools.IslandsManager;
 import persistence.extendeddb.ExtendedDatabaseAPI;
 import persistence.extendeddb.MixedResult;
 import persistence.extendeddb.MixedResults;
-
+import dao.SiteDAO;
 /**
  *
  */
-public class PlacePersistence {
+public class SitePersistence implements SiteDAO{
 	
-	private PlacePersistence() {
+	private SitePersistence() {
 		
 	}
 	

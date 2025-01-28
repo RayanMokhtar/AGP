@@ -11,11 +11,11 @@ import business.tools.IslandsManager;
 import persistence.extendeddb.ExtendedDatabaseAPI;
 import persistence.extendeddb.jdbc.SQLResult;
 import persistence.extendeddb.jdbc.SQLResults;
-
-/**
+import dao
+.HotelDAO;/**
  *
  */
-public class HotelPersistence {
+public class HotelPersistence implements HotelDAO{
     
     private HotelPersistence() {
         

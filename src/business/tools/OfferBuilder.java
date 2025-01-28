@@ -22,16 +22,30 @@ import business.VisitTransport;
 import business.TransportFactory;
 import persistence.HotelPersistence;
 import persistence.IslandPersistence;
-import persistence.PlacePersistence;
+import persistence.SitePersistence;
 import java.util.Comparator;
 import static business.TransportUtils.distanceBetween;
-
+import business.tools.HotelSelector;
+import business.tools.SiteSelector;
+import dao.HotelDAO;
+import dao.SiteDAO;
 
 /**
  *
  */
 
 public class OfferBuilder {
+	
+	private HotelSelector hotelSelector;
+    private SiteSelector siteSelector;
+    
+    public void setHotelSelector(HotelSelector hotelSelector) {
+        this.hotelSelector = hotelSelector;
+    }
+
+    public void setSiteSelector(SiteSelector siteSelector) {
+        this.siteSelector = siteSelector;
+    }
 
     // ---------------------------------------------------------------------------
     //                1) Méthode pour construire une seule offre
@@ -49,10 +63,12 @@ public class OfferBuilder {
      *  - On calcule le prix final de l'offre en cumulant le coût de l'hôtel chaque jour + transport + entrées de sites.
      */
     public static Offer buildOffer(UserCriteria criteria, Hotel startHotel) throws InsufficientBudgetException {
-
+    	
+    	
+    	
         // --- 1) Récupérer la liste d'hôtels et de sites, filtrés par les critères ---
-        List<Hotel> hotels = getHotelsFromCriteria(criteria);
-        List<Site> sites = getSitesFromCriteria(criteria);
+        List<Hotel> hotels = h.getHotelsByCriteria(criteria);
+        List<Site> sites = s.getSitesFromCriteria(criteria);
 
         // Vérif de base
         if (hotels.isEmpty() || sites.isEmpty()) {
@@ -245,11 +261,9 @@ public class OfferBuilder {
                                    + " avec l'hôtel " + currentHotel.getName()
                                    + " => " + e.getMessage());
             } catch (Exception e) {
-                // Gestion générique des autres exceptions
                 System.err.println("Erreur inattendue lors de la génération de l'offre n°" + (count + 1) 
                                    + " avec l'hôtel " + currentHotel.getName()
                                    + " => " + e.toString());
-                // Vous pouvez également logger l'exception avec une stack trace
                 e.printStackTrace();
             }
 
@@ -335,26 +349,7 @@ public class OfferBuilder {
         return nearest;
     }
 
-    /**
-     * Récupère la liste d'hôtels filtrés en fonction des critères.
-     * (À implémenter avec ta Persistence réelle)
-     */
-    public static List<Hotel> getHotelsFromCriteria(UserCriteria criteria) { 
-        // TODO : Appeler ta couche de persistence (HotelPersistence), 
-        // puis filtrer sur le nombre d’étoiles, etc.
-        return new ArrayList<>();
-    }
-
-    /**
-     * Récupère la liste de sites filtrés en fonction des critères.
-     * (À implémenter avec ta Persistence réelle)
-     */
-    public static List<Site> getSitesFromCriteria(UserCriteria criteria) {
-        // TODO : ex: PlacePersistence.getSites(...) 
-        // Filter par typeSite, mots-clés, etc.
-        return new ArrayList<>();
-    }
-
+    
     /**
      * Retourne le site le plus proche dans la liste `availableSites`
      * en fonction de la position courante `currentPos`.

@@ -10,7 +10,7 @@ import business.Island;
 import business.Site;
 import persistence.HotelPersistence;
 import persistence.IslandPersistence;
-import persistence.PlacePersistence;
+import persistence.SitePersistence;
 
 /**
  *
@@ -50,7 +50,7 @@ public class DemoBusinessBDA {
 		}
 		
 		// Places
-		List<Site> places = PlacePersistence.getPlaces("National");
+		List<Site> places = SitePersistence.getPlaces("National");
 		
 		for (Site place : places) {
 			System.out.println("========= Place : "

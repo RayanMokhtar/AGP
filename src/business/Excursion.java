@@ -52,7 +52,7 @@ public class Excursion {
 
     public double getExcursionCost() {
         return excursionCost;
-    }
+    } 
 
     public List<VisitTransport> getPlacesVisited() {
         return placesVisited;

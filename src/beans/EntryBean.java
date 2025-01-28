@@ -16,7 +16,7 @@ import business.Offer;
 import business.Site;
 import business.tools.OffersBuilder;
 import business.tools.UserCriteria;
-import persistence.PlacePersistence;
+import persistence.SitePersistence;
 
 /**
  *
@@ -62,15 +62,15 @@ public class EntryBean {
 	
 	public String startSimulation() {
 		if(user.getPlaceType().equals("historic")) {
-			place=PlacePersistence.getHistoricPlaces(getKeyWord());
+			place=SitePersistence.getHistoricPlaces(getKeyWord());
 			System.out.println(place.size());
 		}
 		else if(user.getPlaceType().equals("activity")) {
-			place=PlacePersistence.getActivityPlaces(getKeyWord());
+			place=SitePersistence.getActivityPlaces(getKeyWord());
 			System.out.println(place.size());
 		}
 		else {
-			place=PlacePersistence.getPlaces(getKeyWord());
+			place=SitePersistence.getPlaces(getKeyWord());
 			System.out.println(place);
 		}
 		return "result";
