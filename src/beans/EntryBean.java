@@ -13,9 +13,9 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
 
 import business.Offer;
-import business.Place;
+import business.Site;
 import business.tools.OffersBuilder;
-import business.tools.UserPreferences;
+import business.tools.UserCriteria;
 import persistence.PlacePersistence;
 
 /**
@@ -24,10 +24,10 @@ import persistence.PlacePersistence;
 @ManagedBean
 @SessionScoped
 public class EntryBean {
-	private UserPreferences user = new UserPreferences();
+	private UserCriteria user = new UserCriteria();
 
 	private String intensity;
-	private List<Place> place = new LinkedList<Place>(); 
+	private List<Site> place = new LinkedList<Site>(); 
 	private List<Offer> offer = new LinkedList<Offer>();
 	private Offer firstoffer;
 	
@@ -114,11 +114,11 @@ public class EntryBean {
 		return items;
 	}
 
-	public UserPreferences getUser() {
+	public UserCriteria getUser() {
 		return user;
 	}
 
-	public void setUser(UserPreferences user) {
+	public void setUser(UserCriteria user) {
 		this.user = user;
 	}
 	
@@ -197,11 +197,11 @@ public class EntryBean {
 		this.intensity = intensity;
 	}
 	
-	public List<Place> getPlace() {
+	public List<Site> getPlace() {
 		return place;
 	}
 	
-	public void setPlace(List<Place> place) {
+	public void setPlace(List<Site> place) {
 		this.place = place;
 	}
 	

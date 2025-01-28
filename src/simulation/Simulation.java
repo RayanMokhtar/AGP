@@ -7,7 +7,7 @@ import java.util.List;
 
 import business.Offer;
 import business.tools.OffersBuilder;
-import business.tools.UserPreferences;
+import business.tools.UserCriteria;
 
 /**
  *
@@ -26,7 +26,7 @@ public class Simulation {
 		
 		
 		// Creation of offers based on client criteria
-		UserPreferences preferences = new UserPreferences();
+		UserCriteria preferences = new UserCriteria();
 		preferences.setPlaceType(PLACE_TYPE);
 		preferences.setKeywords(KEYWORDS);
 		preferences.setMinimumPrice(MINIMUM_PRICE);

@@ -12,7 +12,7 @@ import java.util.Map;
 import business.Coordinates;
 import business.Hotel;
 import business.Island;
-import business.Place;
+import business.Site;
 
 /**
  *
@@ -58,7 +58,7 @@ public class HotelsManager {
 		}
 	}
 	
-	public static Hotel getNearestHotelFrom(Place place) {
+	public static Hotel getNearestHotelFrom(Site place) {
 		double minimalDistance = Double.MAX_VALUE;
 		double distance;
 		@SuppressWarnings("unused")

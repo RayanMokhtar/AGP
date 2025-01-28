@@ -9,14 +9,14 @@ import org.junit.jupiter.api.Test;
 
 import business.Offer;
 import business.tools.OffersBuilder;
-import business.tools.UserPreferences;
+import business.tools.UserCriteria;
 
 public class OffersBuilderTest {
 
 	@Test
 	@DisplayName("Shoudl not be empty")
 	void testBuildOffers() {
-		UserPreferences userPreferences = new UserPreferences();
+		UserCriteria userPreferences = new UserCriteria();
 		userPreferences.setExcursionsFrequency(2);
 		userPreferences.setKeywords("rhum");
 		userPreferences.setMaximumPrice(500);

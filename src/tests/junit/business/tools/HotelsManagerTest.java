@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import business.Place;
+import business.Site;
 import business.tools.HotelsManager;
 
 public class HotelsManagerTest {
@@ -20,7 +20,7 @@ public class HotelsManagerTest {
 	@Test
 	@DisplayName("Should not be null")
 	void testGetNearestHotelFrom() {
-		Place place = new Place(1);
+		Site place = new Site(1);
 		assertNotNull(HotelsManager.getNearestHotelFrom(place));
 	}
 	

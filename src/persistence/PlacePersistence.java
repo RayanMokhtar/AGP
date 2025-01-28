@@ -8,7 +8,7 @@ import java.util.List;
 
 import business.Coordinates;
 import business.Island;
-import business.Place;
+import business.Site;
 import business.tools.IslandsManager;
 import persistence.extendeddb.ExtendedDatabaseAPI;
 import persistence.extendeddb.MixedResult;
@@ -47,7 +47,7 @@ public class PlacePersistence {
 		return mixedResults;
 	}
 	
-	private static Place getPlaceObject(MixedResult tuple) {
+	private static Site getPlaceObject(MixedResult tuple) {
 		int id;
 		boolean isHistoric;
 		String name;
@@ -79,12 +79,12 @@ public class PlacePersistence {
 		island = IslandsManager.getInstance(idIsland);
 		island.incrementScore();
 		
-		return new Place(id, name, isHistoric, visitDuration, entrancePrice,
+		return new Site(id, name, isHistoric, visitDuration, entrancePrice,
 						 description, coordinates, island, score);
 	}
 	
-	public static List<Place> getPlaces(String keywords) {
-		List<Place> places = new LinkedList<Place>();
+	public static List<Site> getPlaces(String keywords) {
+		List<Site> places = new LinkedList<Site>();
 		MixedResults tuples = getPlacesResults("", keywords);
 		
 		for (MixedResult tuple : tuples) {
@@ -94,8 +94,8 @@ public class PlacePersistence {
 		return places;
 	}
 	
-	public static List<Place> getActivityPlaces(String keywords) {
-		List<Place> places = new LinkedList<Place>();
+	public static List<Site> getActivityPlaces(String keywords) {
+		List<Site> places = new LinkedList<Site>();
 		MixedResults tuples = getPlacesResults("type = 'activity'", keywords);
 		
 		for (MixedResult tuple : tuples) {
@@ -105,8 +105,8 @@ public class PlacePersistence {
 		return places;
 	}
 	
-	public static List<Place> getHistoricPlaces(String keywords) {
-		List<Place> places = new LinkedList<Place>();
+	public static List<Site> getHistoricPlaces(String keywords) {
+		List<Site> places = new LinkedList<Site>();
 		MixedResults tuples = getPlacesResults("type = 'historic'", keywords);
 		
 		for (MixedResult tuple : tuples) {

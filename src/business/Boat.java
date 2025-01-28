@@ -3,25 +3,16 @@
  */
 package business;
 
-import business.tools.Constants;
 
 /**
  *
  */
 public class Boat extends Transport {
-
-	public Boat(double distanceTraveled) {
-		super(distanceTraveled);
-		
-		double pricePerKM = Constants.getBoatPricePerKM();
-		double kmPerHour = Constants.getBoatKMPerHour();
-		
-		this.priceForThisTravel = distanceTraveled * pricePerKM;
-		this.durationForThisTravel = distanceTraveled / kmPerHour;
-	}
-	
-	@Override
-	public String toString() {
-		return "Bateau";
-	}
+    public Boat() {
+        super(40.0, 1.0); // ex: 40 km/h, 1 € / km
+    }
+    @Override
+    public String getTransportType() {
+        return "BOAT";
+    }
 }

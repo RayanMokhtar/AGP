@@ -15,7 +15,7 @@ import javax.faces.model.SelectItem;
 
 import business.Excursion;
 import business.Offer;
-import business.Place;
+import business.Site;
 
 /**
  *
@@ -25,7 +25,7 @@ import business.Place;
 public class ResultBean {
 	
 	@ManagedProperty(value = "#{entryBean.place}")
-	private List<Place> place;
+	private List<Site> place;
 	
 	@ManagedProperty(value = "#{entryBean.offer}")
 	private List<Offer> offers;
@@ -81,11 +81,11 @@ public class ResultBean {
 		this.offers = offers;
 	}
 
-	public List<Place> getPlace() {
+	public List<Site> getPlace() {
 		return place;
 	}
 
-	public void setPlace(List<Place> place) {
+	public void setPlace(List<Site> place) {
 		this.place = place;
 	}
 }

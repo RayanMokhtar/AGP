@@ -7,7 +7,7 @@ import java.util.List;
 
 import business.Excursion;
 import business.Offer;
-import business.Place;
+import business.Site;
 import business.Transport;
 import business.Visit;
 
@@ -39,7 +39,7 @@ public class Tools {
 		
 		System.out.println(
 				"\n\n\n####################################################\n"
-				+ "|| Offer n° " + offerNum + "		|| price = " + (float) offer.getPrice() + "	  ||\n"
+				+ "|| Offer nï¿½ " + offerNum + "		|| price = " + (float) offer.getPrice() + "	  ||\n"
 				+ "####################################################"
 		);
 		
@@ -76,7 +76,7 @@ public class Tools {
 			System.out.println("	/ Start of the excursion from your hotel");
 			
 			for (Visit currentVisit : excursionOfDay.getPlacesToVisit()) {
-				Place currentPlace = currentVisit.getPlaceToVisit();
+				Site currentPlace = currentVisit.getPlaceToVisit();
 				Transport currentTransport = currentVisit.getTransportDriveway();
 				
 				System.out.println(

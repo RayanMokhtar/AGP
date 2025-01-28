@@ -7,7 +7,7 @@ import java.util.List;
 
 import business.Hotel;
 import business.Island;
-import business.Place;
+import business.Site;
 import persistence.HotelPersistence;
 import persistence.IslandPersistence;
 import persistence.PlacePersistence;
@@ -50,9 +50,9 @@ public class DemoBusinessBDA {
 		}
 		
 		// Places
-		List<Place> places = PlacePersistence.getPlaces("National");
+		List<Site> places = PlacePersistence.getPlaces("National");
 		
-		for (Place place : places) {
+		for (Site place : places) {
 			System.out.println("========= Place : "
 							   + place.getName()
 							   + " ========="

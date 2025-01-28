@@ -3,57 +3,62 @@
  */
 package business;
 
-import java.util.LinkedList;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
  */
 public class Excursion {
-	private List<Visit> placesToVisit;
-	private Transport transportReturnToHotel;
-	
-	public Excursion() {
-		this.placesToVisit = new LinkedList<Visit>();
-	}
-	
-	public void addVisit(Visit visit) {
-		placesToVisit.add(visit);
-	}
-	
-	public double getPrice() {
-		double visitsPrice = 0.0;
-		
-		for (Visit visit : placesToVisit) {
-			visitsPrice += visit.getPrice();
-		}
-		
-		return visitsPrice + transportReturnToHotel.getPriceForThisTravel();
-	}
-	
-	public double getDuration() {
-		double visitsDuration = 0.0;
-		
-		for (Visit visit : placesToVisit) {
-			visitsDuration += visit.getDuration();
-		}
-		
-		return visitsDuration + transportReturnToHotel.getDurationForThisTravel();
-	}
-	
-	public boolean hasVisits() {
-		return placesToVisit.size() > 0;
-	}
+    private Hotel hotelDeparture;
+    private Hotel hotelArrival;
+    private List<VisitTransport> placesVisited;
+    private double durationTransport; // cumul des transports durée totale transport par excursion
+    private double excursionCost;     // somme des coûts (transport + éventuels frais)
 
-	public Transport getTransportReturnToHotel() {
-		return transportReturnToHotel;
-	}
+    public Excursion(Hotel hotelDeparture) {
+        this.hotelDeparture = hotelDeparture;
+        this.hotelArrival = hotelDeparture; // par défaut le même
+        this.placesVisited = new ArrayList<>();
+        this.durationTransport = 0.0;
+        this.excursionCost = 0.0;
+    }
 
-	public void setTransportReturnToHotel(Transport transportReturnToHotel) {
-		this.transportReturnToHotel = transportReturnToHotel;
-	}
+    /**
+     * Ajoute une étape (site + transport) à l'excursion.
+     */
+    public void addVisitation(VisitTransport visitTransport) {
+        placesVisited.add(visitTransport);
+        durationTransport += visitTransport.getDurationVisit();
+        excursionCost += visitTransport.getCostVisit();
+    }
 
-	public List<Visit> getPlacesToVisit() {
-		return placesToVisit;
-	}
+    // Getters & Setters
+    public void setHotelArrival(Hotel hotelArrival) {
+        this.hotelArrival = hotelArrival;
+    }
+
+    public Hotel getHotelDeparture() {
+        return hotelDeparture;
+    }
+
+    public Hotel getHotelArrival() {
+        return hotelArrival;
+    }
+
+    public double getDurationTransport() {
+        return durationTransport;
+    }
+
+    public double getExcursionCost() {
+        return excursionCost;
+    }
+
+    public List<VisitTransport> getPlacesVisited() {
+        return placesVisited;
+    }
+
+    public void addToExcursionCost(double cost) {
+        this.excursionCost += cost;
+    }
 }

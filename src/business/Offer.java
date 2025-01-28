@@ -1,91 +1,64 @@
-/**
- * 
- */
 package business;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- */
 public class Offer {
-	private Hotel hotel;
-	private List<Excursion> excursions;
-	private int excursionsFrequency;
-	private int numberOfDays;
-	
-	public Offer(Hotel hotel,
-				 int excursionsFrequency,
-				 int numberOfDays) {
-		
-		this.hotel = hotel;
-		this.excursions = new LinkedList<Excursion>();
-		this.excursionsFrequency = excursionsFrequency;
-		this.numberOfDays = numberOfDays;
-	}
-	
-	public void addExcursion(Excursion excursion) {
-		excursions.add(excursion);
-	}
-	
-	public boolean hasExcursionOnDay(int day) {
-		if (day % excursionsFrequency == 0) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	public Excursion getExcursionOfDay(int day) {
-		if (day % excursionsFrequency == 0) {
-			return excursions.get(day / excursionsFrequency - 1);
-		} else {
-			return null;
-		}
-	}
-	
-	public double getPrice() {
-		double excursionsPrice = 0.0;
-		
-		for (Excursion excursion : excursions) {
-			if (excursion.hasVisits()) {
-				excursionsPrice += excursion.getPrice();
-			}
-		}
-		
-		return excursionsPrice + hotel.getPricePerDay() * numberOfDays;
+    private List<Hotel> hotels;       // Hôtels utilisés lors du séjour
+    private List<Excursion> excursions; // Excursions planifiées
+    private double finalPrice; // Coût total (hôtels + transports + visites)
+    private int nbDays ;
+
+    public Offer(int nbDays) {
+        this.hotels = new ArrayList<>();
+        this.excursions = new ArrayList<>();
+        this.finalPrice = 0.0;
+        this.nbDays = nbDays;
+    }
+
+    public int getNbDays() {
+		return nbDays;
 	}
 
-	public Hotel getHotel() {
-		return hotel;
-	}
-
-	public void setHotel(Hotel hotel) {
-		this.hotel = hotel;
-	}
-
-	public List<Excursion> getExcursions() {
-		return excursions;
+	public void setHotels(List<Hotel> hotels) {
+		this.hotels = hotels;
 	}
 
 	public void setExcursions(List<Excursion> excursions) {
 		this.excursions = excursions;
 	}
 
-	public int getExcursionsFrequency() {
-		return excursionsFrequency;
+	public void setFinalPrice(double finalPrice) {
+		this.finalPrice = finalPrice;
 	}
 
-	public void setExcursionsFrequency(int excursionsFrequency) {
-		this.excursionsFrequency = excursionsFrequency;
+	public void setNbDays(int nbDays) {
+		this.nbDays = nbDays;
 	}
 
-	public int getNumberOfDays() {
-		return numberOfDays;
-	}
+	public void addHotel(Hotel h) {
+        if (!this.hotels.contains(h)) {
+            this.hotels.add(h);
+        }
+    }
 
-	public void setNumberOfDays(int numberOfDays) {
-		this.numberOfDays = numberOfDays;
-	}
+    public void addExcursion(Excursion ex) {
+        this.excursions.add(ex);
+    }
+
+    public void addToFinalPrice(double cost) {
+        this.finalPrice += cost;
+    }
+
+    public double getFinalPrice() {
+        return finalPrice;
+    }
+
+    public List<Hotel> getHotels() {
+        return hotels;
+    }
+
+    public List<Excursion> getExcursions() {
+        return excursions;
+    }
 }

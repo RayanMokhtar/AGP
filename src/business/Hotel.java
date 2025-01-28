@@ -12,7 +12,8 @@ public class Hotel {
 	private double pricePerDay;
 	private Coordinates coordinates;
 	private Island island;
-	private int score;
+	private int stars ; 
+	
 	
 	public Hotel(int id) {
 		this.id = id;
@@ -20,26 +21,24 @@ public class Hotel {
 		this.pricePerDay = 0.0;
 		this.coordinates = null;
 		this.island = null;
-		this.score = 0;
+		this.stars = 3;
 	}
 	
 	public Hotel(int id,
 				 String name,
 				 double pricePerDay,
 				 Coordinates coordinates,
-				 Island island) {
+				 Island island , int stars ) {
 		
 		this.id = id;
 		this.name = name;
 		this.pricePerDay = pricePerDay;
 		this.coordinates = coordinates;
 		this.island = island;
-		this.score = 0;
+		this.stars = stars;
 	}
 	
-	public void incrementScore() {
-		score++;
-	}
+
 
 	public int getId() {
 		return id;
@@ -81,11 +80,12 @@ public class Hotel {
 		this.island = island;
 	}
 
-	public int getScore() {
-		return score;
+	public int getStars() {
+		return stars;
 	}
 
-	public void setScore(int score) {
-		this.score = score;
+	public void setStars(int stars) {
+		this.stars = stars;
 	}
 }
+
