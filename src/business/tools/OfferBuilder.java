@@ -36,17 +36,20 @@ import dao.SiteDAO;
 
 public class OfferBuilder {
 	
-	private HotelSelector hotelSelector;
-    private SiteSelector siteSelector;
-    
-    public void setHotelSelector(HotelSelector hotelSelector) {
-        this.hotelSelector = hotelSelector;
-    }
 
-    public void setSiteSelector(SiteSelector siteSelector) {
-        this.siteSelector = siteSelector;
-    }
+	 private HotelSelector hotelSelector;
+	 private SiteSelector siteSelector;
 
+	    // Setters pour l'injection
+	    public void setHotelSelector(HotelSelector hotelSelector) {
+	        this.hotelSelector = hotelSelector;
+	        System.out.println("HotelSelector injecté dans OfferBuilder");
+	    }
+
+	    public void setSiteSelector(SiteSelector siteSelector) {
+	        this.siteSelector = siteSelector;
+	        System.out.println("SiteSelector injecté dans OfferBuilder");
+	    }
     // ---------------------------------------------------------------------------
     //                1) Méthode pour construire une seule offre
     // ---------------------------------------------------------------------------
@@ -62,13 +65,13 @@ public class OfferBuilder {
      *  - On ajoute chaque hôtel utilisé dans l'Offer.
      *  - On calcule le prix final de l'offre en cumulant le coût de l'hôtel chaque jour + transport + entrées de sites.
      */
-    public static Offer buildOffer(UserCriteria criteria, Hotel startHotel) throws InsufficientBudgetException {
+    public Offer buildOffer(UserCriteria criteria, Hotel startHotel) throws InsufficientBudgetException {
     	
     	
     	
         // --- 1) Récupérer la liste d'hôtels et de sites, filtrés par les critères ---
-        List<Hotel> hotels = h.getHotelsByCriteria(criteria);
-        List<Site> sites = s.getSitesFromCriteria(criteria);
+        List<Hotel> hotels = hotelSelector.getHotelsByCriteria(criteria);
+        List<Site> sites = siteSelector.getSitesByCriteria(criteria);
 
         // Vérif de base
         if (hotels.isEmpty() || sites.isEmpty()) {
@@ -230,11 +233,12 @@ public class OfferBuilder {
 //méthode pour générer plusieurs offres , ce qui change c'est mon hotel de base je vais prendre le moins cher du plus cher
 // et si j'ai pas assez dhotels pour générer mes offres je coupe l'algorithme
     
-    public static List<Offer> generateOffers(UserCriteria criteria, int numberOfOffers) {
+    public List<Offer> generateOffers(UserCriteria criteria, int numberOfOffers) {
         List<Offer> offers = new ArrayList<>();
         
         // Récupération et filtrage des hôtels selon les critères
-        List<Hotel> hotels = getHotelsFromCriteria(criteria);
+        List<Hotel> hotels = hotelSelector.getHotelsByCriteria(criteria);
+        
 
         // Si aucun hôtel, on retourne une liste vide
         if (hotels.isEmpty()) {
