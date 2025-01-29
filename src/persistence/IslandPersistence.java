@@ -54,4 +54,18 @@ public class IslandPersistence {
 		
 		return islands;
 	}
+
+	public static Island getIslandById(int id) {
+        ExtendedDatabaseAPI database = Database.getConnection();
+        SQLResults results = null;
+        try {
+            results = database.simpleQuery("SELECT * FROM Island WHERE id = " + id);
+            if (results.hasNext()) {
+                return getIslandObject(results.next());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -3,11 +3,10 @@
  */
 package tests;
 
-import java.util.List;
-
 import business.Hotel;
 import business.Island;
 import business.Site;
+import java.util.List;
 import persistence.HotelPersistence;
 import persistence.IslandPersistence;
 import persistence.SitePersistence;
@@ -49,21 +48,21 @@ public class DemoBusinessBDA {
 			System.out.println("[id] " + island.getId());
 		}
 		
-		// Places
-		List<Site> places = SitePersistence.getPlaces("National");
+		// sites
+		List<Site> sites = SitePersistence.getSites("musée");
 		
-		for (Site place : places) {
-			System.out.println("========= Place : "
-							   + place.getName()
+		for (Site site : sites) {
+			System.out.println("========= site : "
+							   + site.getName()
 							   + " ========="
 			);
 			
 			System.out.println(" [Score] "
-							   + place.getScore()
+							
 			);
 			
 			System.out.println("[Description] "
-							   + place.getDescription()
+							   + site.getDescription()
 			);
 		}
 	}

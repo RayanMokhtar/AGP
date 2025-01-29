@@ -3,14 +3,6 @@
  */
 package business.tools;
 
-import java.util.LinkedList;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import business.exceptions.InsufficientBudgetException;
-import business.Boat;
-import business.Bus;
 import business.Coordinates;
 import business.Excursion;
 import business.Hotel;
@@ -18,17 +10,13 @@ import business.Island;
 import business.Offer;
 import business.Site;
 import business.Transport;
-import business.VisitTransport;
 import business.TransportFactory;
-import persistence.HotelPersistence;
-import persistence.IslandPersistence;
-import persistence.SitePersistence;
-import java.util.Comparator;
 import static business.TransportUtils.distanceBetween;
-import business.tools.HotelSelector;
-import business.tools.SiteSelector;
-import dao.HotelDAO;
-import dao.SiteDAO;
+import business.VisitTransport;
+import business.exceptions.InsufficientBudgetException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  *

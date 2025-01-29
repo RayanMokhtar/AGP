@@ -7,15 +7,14 @@ import java.util.List;
 import business.Coordinates;
 import business.Hotel;
 import business.Island;
-import business.tools.IslandsManager;
 import persistence.extendeddb.ExtendedDatabaseAPI;
 import persistence.extendeddb.jdbc.SQLResult;
 import persistence.extendeddb.jdbc.SQLResults;
-import dao
-.HotelDAO;/**
+
+/**
  *
  */
-public class HotelPersistence implements HotelDAO{
+public class HotelPersistence {
     
     private HotelPersistence() {
         
@@ -43,6 +42,7 @@ public class HotelPersistence implements HotelDAO{
     private static Hotel getHotelObject(SQLResult tuple) {
         int id;
         String name;
+        int stars;
         double pricePerDay;
         double latitude;
         double longitude;
@@ -58,6 +58,8 @@ public class HotelPersistence implements HotelDAO{
         id = Integer.parseInt(idAttr);
         
         name = tuple.getAttribute("name");
+        
+        String stars_attr = tuple.getAttribute("stars");
         
         String priceAttr = tuple.getAttribute("pricePerDay");
         if (priceAttr == null || priceAttr.isEmpty()) {
@@ -83,9 +85,11 @@ public class HotelPersistence implements HotelDAO{
             return null;
         }
         idIsland = Integer.parseInt(islandAttr);
-        island = IslandsManager.getInstance(idIsland);
+        island = IslandPersistence.getIslandById(idIsland);
+        stars = Integer.parseInt(stars_attr);
         
-        return new Hotel(id, name, pricePerDay, coordinates, island);
+        
+        return new Hotel(id, name, pricePerDay, coordinates, island, stars);
     }
     
     public static List<Hotel> getHotels() {

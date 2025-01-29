@@ -9,25 +9,26 @@ import java.util.List;
 import business.Coordinates;
 import business.Island;
 import business.Site;
+import business.tools.TypeSite;
 import persistence.extendeddb.ExtendedDatabaseAPI;
 import persistence.extendeddb.MixedResult;
 import persistence.extendeddb.MixedResults;
-import dao.SiteDAO;
+
 /**
  *
  */
-public class SitePersistence implements SiteDAO{
+public class SitePersistence {
 	
 	private SitePersistence() {
 		
 	}
 	
-	private static MixedResults getPlacesResults(String whereClause, String withClause) {
+	private static MixedResults getSitesResults(String whereClause, String withClause) {
 		MixedResults mixedResults = null;
 		ExtendedDatabaseAPI database = Database.getConnection();
 		
-		String query = "SELECT id, name, type, visitDuration, entrancePrice,"
-					   + "latitude, longitude, idIsland FROM Place";
+		String query = "SELECT id, name, type, duration, entryPrice,"
+					   + "latitude, longitude, idIsland FROM Site";
 		
 		if (!whereClause.isEmpty()) {
 			query += " WHERE " + whereClause;
@@ -36,6 +37,8 @@ public class SitePersistence implements SiteDAO{
 		if (!withClause.isEmpty()) {
 			query += " WITH " + withClause;
 		}
+		
+		System.out.println(query);
 		
 		try {
 			mixedResults = database.mixedQuery(query);
@@ -46,72 +49,57 @@ public class SitePersistence implements SiteDAO{
 		return mixedResults;
 	}
 	
-	private static Site getPlaceObject(MixedResult tuple) {
-		int id;
-		boolean isHistoric;
-		String name;
-		int visitDuration;
-		double entrancePrice;
-		double latitude;
-		double longitude;
-		int idIsland;
-		Coordinates coordinates;
-		Island island;
-		
-		int score;
-		String description;
-		
-		id = Integer.parseInt(tuple.getAttribute("id"));
-		isHistoric = tuple.getAttribute("type") == "historic";
-		name = tuple.getAttribute("name");
-		visitDuration = Integer.parseInt(tuple.getAttribute("visitDuration"));
-		entrancePrice = Double.parseDouble(tuple.getAttribute("entrancePrice"));
-		latitude = Double.parseDouble(tuple.getAttribute("latitude"));
-		longitude = Double.parseDouble(tuple.getAttribute("longitude"));
-		idIsland = Integer.parseInt(tuple.getAttribute("idIsland"));
-		
-		score = tuple.getScore();
-		description = tuple.getContent();
-		
-		coordinates = new Coordinates(latitude, longitude);
-		
-		island = IslandsManager.getInstance(idIsland);
-		island.incrementScore();
-		
-		return new Site(id, name, isHistoric, visitDuration, entrancePrice,
-						 description, coordinates, island, score);
-	}
+	private static Site getSiteObject(MixedResult tuple) {
+    try {
+        int id = Integer.parseInt(tuple.getAttribute("id"));
+        TypeSite type = TypeSite.fromString(tuple.getAttribute("type"));
+        String name = tuple.getAttribute("name");
+        int duration = (int)Double.parseDouble(tuple.getAttribute("duration"));
+        double entryPrice = Double.parseDouble(tuple.getAttribute("entryPrice"));
+        double latitude = Double.parseDouble(tuple.getAttribute("latitude"));
+        double longitude = Double.parseDouble(tuple.getAttribute("longitude"));
+        int idIsland = Integer.parseInt(tuple.getAttribute("idIsland"));
+        
+        Coordinates coordinates = new Coordinates(latitude, longitude);
+        Island island = IslandPersistence.getIslandById(idIsland);
+        String description = tuple.getContent();
+        return new Site(id, name, entryPrice, duration, coordinates, island, type, description);
+    } catch (NumberFormatException e) {
+        System.err.println("Erreur de conversion des données: " + e.getMessage());
+        return null;
+    }
+}
 	
-	public static List<Site> getPlaces(String keywords) {
-		List<Site> places = new LinkedList<Site>();
-		MixedResults tuples = getPlacesResults("", keywords);
+	public static List<Site> getSites(String keywords) {
+		List<Site> Sites = new LinkedList<Site>();
+		MixedResults tuples = getSitesResults("", keywords);
 		
 		for (MixedResult tuple : tuples) {
-			places.add(getPlaceObject(tuple));
+			Sites.add(getSiteObject(tuple));
 		}
 		
-		return places;
+		return Sites;
 	}
 	
-	public static List<Site> getActivityPlaces(String keywords) {
-		List<Site> places = new LinkedList<Site>();
-		MixedResults tuples = getPlacesResults("type = 'activity'", keywords);
+	public static List<Site> getActivitySites(String keywords) {
+		List<Site> sites = new LinkedList<Site>();
+		MixedResults tuples = getSitesResults("type = 'activity'", keywords);
 		
 		for (MixedResult tuple : tuples) {
-			places.add(getPlaceObject(tuple));
+			sites.add(getSiteObject(tuple));
 		}
 		
-		return places;
+		return sites;
 	}
 	
-	public static List<Site> getHistoricPlaces(String keywords) {
-		List<Site> places = new LinkedList<Site>();
-		MixedResults tuples = getPlacesResults("type = 'historic'", keywords);
+	public static List<Site> getHistoricSites(String keywords) {
+		List<Site> Sites = new LinkedList<Site>();
+		MixedResults tuples = getSitesResults("type = 'historic'", keywords);
 		
 		for (MixedResult tuple : tuples) {
-			places.add(getPlaceObject(tuple));
+			Sites.add(getSiteObject(tuple));
 		}
 		
-		return places;
+		return Sites;
 	}
 }

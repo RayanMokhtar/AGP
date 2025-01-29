@@ -25,10 +25,9 @@ import org.apache.lucene.store.FSDirectory;
  * Used to search keywords in an index.
  */
 public class Searcher {
-    
     private static final int MAX_RESULTS = 100;
     private final Path indexPath;
-    
+
     /**
      * Constructor
      * @param indexPath the directory that contains the index
@@ -36,7 +35,7 @@ public class Searcher {
     public Searcher(Path indexPath) {
         this.indexPath = indexPath;
     }
-    
+
     /**
      * search
      * 
@@ -48,75 +47,74 @@ public class Searcher {
      * @throws ParseException
      */
     public TextualResults search(String query) throws IOException, ParseException {
-        
-        // 1. Vérification de la requête
+        // 1. VÃ©rification de la requÃªte
         if (query == null || query.isEmpty()) {
             System.err.println("Error: a non-empty query is required.");
-            return null;
+            return new TextualResults();
         }
-        
+
         // 2. Initialisations des objets Lucene
         Analyzer analyzer = new StandardAnalyzer();
         QueryParser parser = new QueryParser("content", analyzer);
-        
+
         try (Directory directory = FSDirectory.open(indexPath);
              IndexReader reader = DirectoryReader.open(directory)) {
-            
+
             IndexSearcher searcher = new IndexSearcher(reader);
             Query parsedQuery = parser.parse(query);
-            
+
             // 3. Recherche
             ScoreDoc[] hits = searcher.search(parsedQuery, MAX_RESULTS).scoreDocs;
-            
+
             TextualResults textualResults = new TextualResults();
-            
-            // 4. Parcours des résultats
+
+            // 4. Parcours des rÃ©sultats
             for (ScoreDoc hit : hits) {
-                // Récupération du Document à partir des champs stockés
+                // RÃ©cupÃ©ration du Document Ã  partir des champs stockÃ©s
                 Document doc = searcher.storedFields().document(hit.doc);
-                
-                // Calcul du "score" (multiplié par 1000, comme dans l'exemple initial)
+
+                // Calcul du "score" (multipliÃ© par 1000, comme dans l'exemple initial)
                 int score = (int) (hit.score * 1000);
-                
-                // Récupération du chemin du fichier (champ "path" indexé/storé dans Lucene)
+
+                // RÃ©cupÃ©ration du chemin du fichier (champ "path" indexÃ©/storÃ© dans Lucene)
                 String filePath = doc.get("path");
                 if (filePath == null) {
-                    // Si aucun champ "path", ignorer ou gérer autrement
+                    // Si aucun champ "path", ignorer ou gÃ©rer autrement
                     continue;
                 }
-                
+
                 // Lecture du contenu du fichier
                 StringBuilder contentBuilder = new StringBuilder();
                 File file = new File(filePath);
-                
+
                 try (FileReader fr = new FileReader(file);
                      BufferedReader br = new BufferedReader(fr)) {
-                     
+
                     String line;
                     while ((line = br.readLine()) != null) {
                         contentBuilder.append(line).append("\n");
                     }
                 }
-                
+
                 // Nom de fichier (ex. "123.txt")
                 String filename = file.getName();
                 // On retire l'extension
                 int dotIndex = filename.lastIndexOf('.');
                 String baseFilename = (dotIndex >= 0) ? filename.substring(0, dotIndex) : filename;
-                
+
                 int id;
                 try {
                     id = Integer.parseInt(baseFilename);
                 } catch (NumberFormatException e) {
-                    // Si le nom ne correspond pas à un entier, gérer le cas
+                    // Si le nom ne correspond pas Ã  un entier, gÃ©rer le cas
                     // On peut mettre -1 ou continuer
                     id = -1;
                 }
-                
-                // Ajout du résultat
+
+                // Ajout du rÃ©sultat
                 textualResults.add(new TextualResult(id, score, contentBuilder.toString()));
             }
-            
+
             return textualResults;
         }
     }

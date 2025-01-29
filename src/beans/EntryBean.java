@@ -15,8 +15,8 @@ import javax.faces.model.SelectItem;
 import business.Offer;
 import business.Site;
 import business.tools.OffersBuilder;
-import business.tools.UserCriteria;
-import persistence.SitePersistence;
+import business.tools.UserPreferences;
+import persistence.PlacePersistence;
 
 /**
  *
@@ -24,7 +24,7 @@ import persistence.SitePersistence;
 @ManagedBean
 @SessionScoped
 public class EntryBean {
-	private UserCriteria user = new UserCriteria();
+	private UserPreferences user = new UserPreferences();
 
 	private String intensity;
 	private List<Site> place = new LinkedList<Site>(); 
@@ -62,15 +62,15 @@ public class EntryBean {
 	
 	public String startSimulation() {
 		if(user.getPlaceType().equals("historic")) {
-			place=SitePersistence.getHistoricPlaces(getKeyWord());
+			place=PlacePersistence.getHistoricPlaces(getKeyWord());
 			System.out.println(place.size());
 		}
 		else if(user.getPlaceType().equals("activity")) {
-			place=SitePersistence.getActivityPlaces(getKeyWord());
+			place=PlacePersistence.getActivityPlaces(getKeyWord());
 			System.out.println(place.size());
 		}
 		else {
-			place=SitePersistence.getPlaces(getKeyWord());
+			place=PlacePersistence.getPlaces(getKeyWord());
 			System.out.println(place);
 		}
 		return "result";
@@ -114,11 +114,11 @@ public class EntryBean {
 		return items;
 	}
 
-	public UserCriteria getUser() {
+	public UserPreferences getUser() {
 		return user;
 	}
 
-	public void setUser(UserCriteria user) {
+	public void setUser(UserPreferences user) {
 		this.user = user;
 	}
 	

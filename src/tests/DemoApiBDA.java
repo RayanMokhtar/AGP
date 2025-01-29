@@ -50,7 +50,7 @@ public class DemoApiBDA {
 		SQLConfiguration sqlConfiguration = new SQLConfiguration(
 				"mysql",
 				"mysql-agp-antilles.alwaysdata.net",
-				"agp-antilles_bdd",
+				"agp-antilles_database",
 				"396335",
 				"Pmlpmlpmlk000"
 		);
@@ -68,7 +68,8 @@ public class DemoApiBDA {
 			
 			// 1. Simple query
 			// ============================
-			SQLResults sqlResults = database.simpleQuery("SELECT name, type FROM Place WHERE type = 'historic'");
+			System.out.println("simple query : \n");
+			SQLResults sqlResults = database.simpleQuery("SELECT name, type FROM Site WHERE type = 'historic'");
 			
 			// Display the results with a for loop
 			System.out.println("Test de requete simple :\n");
@@ -90,7 +91,8 @@ public class DemoApiBDA {
 			
 			// 2. Textual query
 			// ============================
-			TextualResults textualResults = database.textualQuery("mus�e");
+			System.out.println("textual query : \n");
+			TextualResults textualResults = database.textualQuery("musée");
 			
 			// Display the results with a for loop
 			for (TextualResult textualResult : textualResults) {
@@ -113,34 +115,14 @@ public class DemoApiBDA {
 			}
 			
 			
+			
+			System.out.println("Mixed results :\n");
 			// 3. Mixed query
 			// ============================
-			MixedResults mixedResults = database.mixedQuery("SELECT name, type FROM Place WITH mus�e");
+			MixedResults mixedResults = database.mixedQuery("SELECT id, name, type, duration, entryPrice, latitude, longitude, idIsland FROM Site WITH musée");
 			
 			// Display the results with a for loop
 			for (MixedResult mixedResult : mixedResults) {
-				System.out.println("========= "
-								   + mixedResult.getAttribute("name")
-								   + " ========="
-				);
-				
-				System.out.println("[Type] "
-								   + mixedResult.getAttribute("type")
-								   + " [Score] "
-								   + mixedResult.getScore()
-				);
-				
-				System.out.println("[Description] "
-								   + mixedResult.getContent()
-				);
-			}
-			
-			// Display the results with a while loop
-			MixedResult mixedResult;
-			
-			while (mixedResults.hasNext()) {
-				mixedResult = mixedResults.next();
-				
 				System.out.println("========= "
 								   + mixedResult.getAttribute("name")
 								   + " ========="

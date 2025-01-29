@@ -19,7 +19,7 @@ public class Database {
 	// SQL configuration
 	private static String system = "mysql";
 	private static String host = "mysql-agp-antilles.alwaysdata.net";
-	private static String base = "agp-antilles_bdd";
+	private static String base = "agp-antilles_database";
 	private static String user = "396335";
 	private static String password = "Pmlpmlpmlk000";
 	
