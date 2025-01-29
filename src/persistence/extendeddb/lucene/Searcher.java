@@ -1,121 +1,92 @@
 package persistence.extendeddb.lucene;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Path;
+import java.io.*;
+import java.nio.file.*;
+import java.text.Normalizer;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
-/**
- * Searcher class
- * 
- * Used to search keywords in an index.
- */
 public class Searcher {
     private static final int MAX_RESULTS = 100;
     private final Path indexPath;
 
-    /**
-     * Constructor
-     * @param indexPath the directory that contains the index
-     */
     public Searcher(Path indexPath) {
         this.indexPath = indexPath;
     }
 
-    /**
-     * search
-     * 
-     * Method used to search keywords in the index.
-     * 
-     * @param query A textual query.
-     * @return TextualResults
-     * @throws IOException
-     * @throws ParseException
-     */
     public TextualResults search(String query) throws IOException, ParseException {
-        // 1. Vérification de la requête
-        if (query == null || query.isEmpty()) {
-            System.err.println("Error: a non-empty query is required.");
-            return new TextualResults();
+        TextualResults textualResults = new TextualResults();
+
+        if (query == null || query.trim().isEmpty()) {
+            return textualResults;
         }
 
-        // 2. Initialisations des objets Lucene
+        // Utilisation de l'analyseur standard
         Analyzer analyzer = new StandardAnalyzer();
-        QueryParser parser = new QueryParser("content", analyzer);
 
-        try (Directory directory = FSDirectory.open(indexPath);
-             IndexReader reader = DirectoryReader.open(directory)) {
-
+        try (Directory directory = FSDirectory.open(indexPath)) {
+            IndexReader reader = DirectoryReader.open(directory);
             IndexSearcher searcher = new IndexSearcher(reader);
-            Query parsedQuery = parser.parse(query);
 
-            // 3. Recherche
-            ScoreDoc[] hits = searcher.search(parsedQuery, MAX_RESULTS).scoreDocs;
+            // Configuration du QueryParser avec options de recherche floue
+            QueryParser parser = new QueryParser("content", analyzer);
+            parser.setDefaultOperator(QueryParser.Operator.OR);
+            parser.setAllowLeadingWildcard(true);
 
-            TextualResults textualResults = new TextualResults();
+            // Construction de la requête
+            String normalizedQuery = normalizeQuery(query);
+            BooleanQuery.Builder booleanQuery = new BooleanQuery.Builder();
+            
+            // Ajout des différentes variantes de recherche
+            booleanQuery.add(parser.parse(normalizedQuery), BooleanClause.Occur.SHOULD);
+            booleanQuery.add(new FuzzyQuery(new Term("content", normalizedQuery), 2), BooleanClause.Occur.SHOULD);
+            booleanQuery.add(parser.parse("*" + normalizedQuery + "*"), BooleanClause.Occur.SHOULD);
 
-            // 4. Parcours des résultats
+            // Recherche
+            ScoreDoc[] hits = searcher.search(booleanQuery.build(), MAX_RESULTS).scoreDocs;
+
+            // Traitement des résultats
             for (ScoreDoc hit : hits) {
-                // Récupération du Document à partir des champs stockés
                 Document doc = searcher.storedFields().document(hit.doc);
-
-                // Calcul du "score" (multiplié par 1000, comme dans l'exemple initial)
-                int score = (int) (hit.score * 1000);
-
-                // Récupération du chemin du fichier (champ "path" indexé/storé dans Lucene)
                 String filePath = doc.get("path");
-                if (filePath == null) {
-                    // Si aucun champ "path", ignorer ou gérer autrement
-                    continue;
+                
+                if (filePath != null) {
+                    File file = new File(filePath);
+                    String content = new String(Files.readAllBytes(Paths.get(filePath)));
+                    int id = extractId(file.getName());
+                    float normalizedScore = hit.score * 1000;
+                    
+                    textualResults.add(new TextualResult(id, (int)normalizedScore, content));
                 }
-
-                // Lecture du contenu du fichier
-                StringBuilder contentBuilder = new StringBuilder();
-                File file = new File(filePath);
-
-                try (FileReader fr = new FileReader(file);
-                     BufferedReader br = new BufferedReader(fr)) {
-
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        contentBuilder.append(line).append("\n");
-                    }
-                }
-
-                // Nom de fichier (ex. "123.txt")
-                String filename = file.getName();
-                // On retire l'extension
-                int dotIndex = filename.lastIndexOf('.');
-                String baseFilename = (dotIndex >= 0) ? filename.substring(0, dotIndex) : filename;
-
-                int id;
-                try {
-                    id = Integer.parseInt(baseFilename);
-                } catch (NumberFormatException e) {
-                    // Si le nom ne correspond pas à un entier, gérer le cas
-                    // On peut mettre -1 ou continuer
-                    id = -1;
-                }
-
-                // Ajout du résultat
-                textualResults.add(new TextualResult(id, score, contentBuilder.toString()));
             }
+        }
 
-            return textualResults;
+        return textualResults;
+    }
+
+    private String normalizeQuery(String query) {
+        return Normalizer.normalize(query, Normalizer.Form.NFD)
+            .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+            .toLowerCase()
+            .trim()
+            .replaceAll("[^a-z0-9 ]", " ");
+    }
+
+    private int extractId(String filename) {
+        try {
+            return Integer.parseInt(filename.replaceAll("[^0-9]", ""));
+        } catch (NumberFormatException e) {
+            return -1;
         }
     }
 }

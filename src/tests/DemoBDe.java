@@ -21,9 +21,9 @@ import persistence.extendeddb.lucene.TextualResults;
 /**
  *
  */
-	public class ApiBdeDemonstration {
-	
-		/**
+public class DemoBDe {
+
+	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -31,12 +31,13 @@ import persistence.extendeddb.lucene.TextualResults;
 		Path indexPath = Paths.get("AGP_DB", "Index");
 		
 		try {
-	
+			// Create an index and add documents
 			Indexer index = new Indexer(sourcePath, indexPath);
 			
 			index.createIndex(true);
 			
-			index.writeDocument("18", "il s'agit de COO projet AGP pour démo Lucene Supposons que c'est un test"); // pour ajouter des documents //
+			// (Optional) Write a document in sourcePath
+			index.writeDocument("100", "Description\nOn multiple lines...");
 			
 			index.addDocuments(sourcePath);
 			index.close();
@@ -46,7 +47,7 @@ import persistence.extendeddb.lucene.TextualResults;
 		}
 		
 		
-		SQLConfiguration sqlConfiguration = new SQLConfiguration(  // conf SQL pour connexion a la base de données
+		SQLConfiguration sqlConfiguration = new SQLConfiguration(
 				"mysql",
 				"mysql-agp-antilles.alwaysdata.net",
 				"agp-antilles_database",
@@ -58,14 +59,12 @@ import persistence.extendeddb.lucene.TextualResults;
 				sourcePath,
 				indexPath,
 				"Site",
-				"name"
+				"id"
 		);
 		
 		try {
-			// connexion à la base de données 
+			// Establish the connection
 			ExtendedDatabaseAPI database = new ExtendedDatabaseAPI(sqlConfiguration, textualConfiguration);
-			
-			System.out.println("la connexion à la base de données " , database);
 			
 			// 1. Simple query
 			// ============================
@@ -90,9 +89,9 @@ import persistence.extendeddb.lucene.TextualResults;
 			}
 			
 			
-			
-			//  requete textuelle
-			System.out.println("requete textuelle: \n",);
+			// 2. Textual query
+			// ============================
+			System.out.println("textual query : \n");
 			TextualResults textualResults = database.textualQuery("musée");
 			
 			// Display the results with a for loop
@@ -136,12 +135,12 @@ import persistence.extendeddb.lucene.TextualResults;
 				);
 				
 				System.out.println("[Description] "
-									   + mixedResult.getContent()
-					);
-				}
-				
-			} catch (Exception e) {
-				e.printStackTrace();
+								   + mixedResult.getContent()
+				);
 			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
+}

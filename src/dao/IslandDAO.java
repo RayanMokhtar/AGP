@@ -1,7 +1,5 @@
 package dao;
 
-import java.util.List;
-
 import business.Island;
 
 public interface IslandDAO {
