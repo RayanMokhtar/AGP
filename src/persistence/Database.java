@@ -26,7 +26,7 @@ public class Database {
 	// Textual queries configuration
 	private static Path sourcePath = Paths.get("AGP_DB", "Description");
 	private static Path indexPath = Paths.get("AGP_DB", "Index");
-	private static String table = "Site";
+	private static String table = "Place";
 	private static String joinKey = "id";
 	
 	

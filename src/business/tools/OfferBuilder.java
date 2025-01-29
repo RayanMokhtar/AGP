@@ -3,14 +3,6 @@
  */
 package business.tools;
 
-import java.util.LinkedList;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import business.exceptions.InsufficientBudgetException;
-import business.Boat;
-import business.Bus;
 import business.Coordinates;
 import business.Excursion;
 import business.Hotel;
@@ -18,21 +10,34 @@ import business.Island;
 import business.Offer;
 import business.Site;
 import business.Transport;
-import business.VisitTransport;
 import business.TransportFactory;
-import persistence.HotelPersistence;
-import persistence.IslandPersistence;
-import persistence.SitePersistence;
-import java.util.Comparator;
 import static business.TransportUtils.distanceBetween;
-
+import business.VisitTransport;
+import business.exceptions.InsufficientBudgetException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  *
  */
 
 public class OfferBuilder {
+	
 
+	 private HotelSelector hotelSelector;
+	 private SiteSelector siteSelector;
+
+	    // Setters pour l'injection
+	    public void setHotelSelector(HotelSelector hotelSelector) {
+	        this.hotelSelector = hotelSelector;
+	        System.out.println("HotelSelector injecté dans OfferBuilder");
+	    }
+
+	    public void setSiteSelector(SiteSelector siteSelector) {
+	        this.siteSelector = siteSelector;
+	        System.out.println("SiteSelector injecté dans OfferBuilder");
+	    }
     // ---------------------------------------------------------------------------
     //                1) Méthode pour construire une seule offre
     // ---------------------------------------------------------------------------
@@ -48,11 +53,13 @@ public class OfferBuilder {
      *  - On ajoute chaque hôtel utilisé dans l'Offer.
      *  - On calcule le prix final de l'offre en cumulant le coût de l'hôtel chaque jour + transport + entrées de sites.
      */
-    public static Offer buildOffer(UserCriteria criteria, Hotel startHotel) throws InsufficientBudgetException {
-
+    public Offer buildOffer(UserCriteria criteria, Hotel startHotel) throws InsufficientBudgetException {
+    	
+    	
+    	
         // --- 1) Récupérer la liste d'hôtels et de sites, filtrés par les critères ---
-        List<Hotel> hotels = getHotelsFromCriteria(criteria);
-        List<Site> sites = getSitesFromCriteria(criteria);
+        List<Hotel> hotels = hotelSelector.getHotelsByCriteria(criteria);
+        List<Site> sites = siteSelector.getSitesByCriteria(criteria);
 
         // Vérif de base
         if (hotels.isEmpty() || sites.isEmpty()) {
@@ -111,7 +118,7 @@ public class OfferBuilder {
             Island currentIsland = currentHotel.getIsland();
 
             if (doExcursion) {
-                // On visite jusqu'à visitedSitesPerDay sites max
+                // On visite jusqu'à visitedPlacesPerDay sites max
                 for (int p = 1; p <= criteria.getVisitedPlacesPerDay(); p++) {
                     if (sites.isEmpty()) {
                         // plus de sites à visiter
@@ -119,7 +126,7 @@ public class OfferBuilder {
                     }
 
                     // 1) Trouver le site le plus proche de la position courante
-                    Site nearestSite = getNearestSiteFromSomeSite(currentPosition, sites);
+                    Site nearestSite = getNearestSiteFromSomePlace(currentPosition, sites);
                     if (nearestSite == null) {
                         break; // plus de sites
                     }
@@ -214,11 +221,12 @@ public class OfferBuilder {
 //méthode pour générer plusieurs offres , ce qui change c'est mon hotel de base je vais prendre le moins cher du plus cher
 // et si j'ai pas assez dhotels pour générer mes offres je coupe l'algorithme
     
-    public static List<Offer> generateOffers(UserCriteria criteria, int numberOfOffers) {
+    public List<Offer> generateOffers(UserCriteria criteria, int numberOfOffers) {
         List<Offer> offers = new ArrayList<>();
         
         // Récupération et filtrage des hôtels selon les critères
-        List<Hotel> hotels = getHotelsFromCriteria(criteria);
+        List<Hotel> hotels = hotelSelector.getHotelsByCriteria(criteria);
+        
 
         // Si aucun hôtel, on retourne une liste vide
         if (hotels.isEmpty()) {
@@ -227,7 +235,7 @@ public class OfferBuilder {
 
         // 1) Trier la liste d’hôtels par ordre croissant de pricePerDay
         hotels.sort(Comparator.comparingDouble(Hotel::getPricePerDay));
-        // Cela Site l’hôtel le moins cher en premier et le plus cher en dernier.
+        // Cela place l’hôtel le moins cher en premier et le plus cher en dernier.
 
         // 2) Générer les offres
         int count = 0;
@@ -245,11 +253,9 @@ public class OfferBuilder {
                                    + " avec l'hôtel " + currentHotel.getName()
                                    + " => " + e.getMessage());
             } catch (Exception e) {
-                // Gestion générique des autres exceptions
                 System.err.println("Erreur inattendue lors de la génération de l'offre n°" + (count + 1) 
                                    + " avec l'hôtel " + currentHotel.getName()
                                    + " => " + e.toString());
-                // Vous pouvez également logger l'exception avec une stack trace
                 e.printStackTrace();
             }
 
@@ -286,7 +292,7 @@ public class OfferBuilder {
     /**
      * Cherche l'hôtel le plus proche de la position courante,
      * puis vérifie si on peut y aller en transport (distance, budget, confort).
-     * Si c'est trop cher, ou le transport est null => renvoie null => on reste sur Site.
+     * Si c'est trop cher, ou le transport est null => renvoie null => on reste sur place.
      *
      * Sinon, renvoie l'hôtel trouvé.
      */
@@ -335,31 +341,12 @@ public class OfferBuilder {
         return nearest;
     }
 
-    /**
-     * Récupère la liste d'hôtels filtrés en fonction des critères.
-     * (À implémenter avec ta Persistence réelle)
-     */
-    public static List<Hotel> getHotelsFromCriteria(UserCriteria criteria) { 
-        // TODO : Appeler ta couche de persistence (HotelPersistence), 
-        // puis filtrer sur le nombre d’étoiles, etc.
-        return new ArrayList<>();
-    }
-
-    /**
-     * Récupère la liste de sites filtrés en fonction des critères.
-     * (À implémenter avec ta Persistence réelle)
-     */
-    public static List<Site> getSitesFromCriteria(UserCriteria criteria) {
-        // TODO : ex: SitePersistence.getSites(...) 
-        // Filter par typeSite, mots-clés, etc.
-        return new ArrayList<>();
-    }
-
+    
     /**
      * Retourne le site le plus proche dans la liste `availableSites`
      * en fonction de la position courante `currentPos`.
      */
-    public static Site getNearestSiteFromSomeSite(Coordinates currentPos, List<Site> availableSites) {
+    public static Site getNearestSiteFromSomePlace(Coordinates currentPos, List<Site> availableSites) {
         Site nearest = null;
         double minDist = Double.MAX_VALUE;
         for (Site s : availableSites) {

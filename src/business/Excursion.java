@@ -3,8 +3,8 @@
  */
 package business;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -52,7 +52,7 @@ public class Excursion {
 
     public double getExcursionCost() {
         return excursionCost;
-    }
+    } 
 
     public List<VisitTransport> getPlacesVisited() {
         return placesVisited;

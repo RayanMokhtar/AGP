@@ -7,7 +7,7 @@ import java.util.List;
 
 import business.Offer;
 import business.tools.OffersBuilder;
-import business.tools.UserPreferences;
+import business.tools.UserCriteria;
 
 /**
  *
@@ -22,11 +22,11 @@ public class Simulation {
 		final int MAXIMUM_PRICE = 1000;
 		final int NUMBER_OF_DAYS = 4;
 		final int EXCURSIONS_FREQUENCY = 1;
-		final double MAXIMUM_TRANSPORT_DURATION = 3;
+		final double MAXIMUM_TRANSPORT_DURATION = 0.25;
 		
 		
 		// Creation of offers based on client criteria
-		UserPreferences preferences = new UserPreferences();
+		UserCriteria preferences = new UserCriteria();
 		preferences.setPlaceType(PLACE_TYPE);
 		preferences.setKeywords(KEYWORDS);
 		preferences.setMinimumPrice(MINIMUM_PRICE);

@@ -3,26 +3,33 @@
  */
 package tests;
 
-import java.util.List;
-
 import business.Hotel;
 import business.Island;
 import business.Site;
+import business.tools.HotelSelector;
+
+import java.util.List;
 import persistence.HotelPersistence;
 import persistence.IslandPersistence;
 import persistence.SitePersistence;
-
+import dao.HotelDAO;
 /**
  *
  */
-public class DemoBusinessBDA {
+public class DemoInterfacesDAO {
 	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		
+		
+		
+		HotelDAO hotelDAO = new HotelPersistence();
+		HotelSelector hotelselector = new HotelSelector();
+		hotelselector.setHotelDAO(hotelDAO);
 		// Hotels
-		List<Hotel> hotels = HotelPersistence.getHotels();
+		List<Hotel> hotels = hotelselector.getAllHotels();
 		
 		for (Hotel hotel : hotels) {
 			System.out.println("========= Hotel : "
@@ -50,7 +57,7 @@ public class DemoBusinessBDA {
 		}
 		
 		// sites
-		List<Site> sites = SitePersistence.getSites("MUSéEs");
+		List<Site> sites = SitePersistence.getSites("musée");
 		
 		for (Site site : sites) {
 			System.out.println("========= site : "

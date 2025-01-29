@@ -11,7 +11,7 @@ public class UserCriteria {
 	private int minPrice;
 	private int maxPrice;
 	private Intensity intensity;
-	private int comfort; // nombre d'heures passé dans les transports par jour . 
+	private int comfort; // nombre d'heures maximal passé dans  transport toléré  par jour . 
 	private int visitedPlacesPerDay;
 	private String descriptionSite ;
 	private TypeSite typesite;
