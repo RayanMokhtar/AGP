@@ -27,13 +27,7 @@ public class ExtendedDatabaseAPI {
         this.textualConfiguration = textualConfiguration;
     }
 
-    /**
-     * Method used to execute textual queries on the database.
-     * 
-     * @param query A textual query.
-     * @throws IOException, ParseException
-     * @return TextualResults
-     */
+  
     public TextualResults textualQuery(String query) throws IOException, ParseException {
         if (query == null || query.isEmpty()) {
             System.err.println("La requête textuelle ne peut pas être vide");
@@ -45,7 +39,6 @@ public class ExtendedDatabaseAPI {
             Searcher searcher = new Searcher(textualConfiguration.getIndexPath());
             TextualResults results = searcher.search(query);
             
-            // Debug des résultats
             if (results != null) {
                 System.out.println("Nombre de résultats textuels trouvés: " + results.size());
                 for (TextualResult result : results) {
@@ -88,7 +81,6 @@ public class ExtendedDatabaseAPI {
         hasTextualQuery = partsQuery.length == 2;
         hasTableForJoin = sqlQuery.matches("(?i:.*FROM.* " + textualConfiguration.getTable() + ".*)");
     
-        // Debug
         System.out.println("SQL Query: " + sqlQuery);
         if (hasTextualQuery) {
             System.out.println("Text Query: " + partsQuery[1]);

@@ -21,7 +21,7 @@ import persistence.extendeddb.lucene.TextualResults;
 /**
  *
  */
-public class DemoApiBDA {
+public class ApiBdeDemonstration {
 
 	/**
 	 * @param args
@@ -31,13 +31,12 @@ public class DemoApiBDA {
 		Path indexPath = Paths.get("AGP_DB", "Index");
 		
 		try {
-			// Create an index and add documents
+
 			Indexer index = new Indexer(sourcePath, indexPath);
 			
 			index.createIndex(true);
 			
-			// (Optional) Write a document in sourcePath
-			index.writeDocument("100", "Description\nOn multiple lines...");
+			index.writeDocument("18", "il s'agit de COO projet AGP pour démo Lucene Supposons que c'est un test"); // pour ajouter des documents //
 			
 			index.addDocuments(sourcePath);
 			index.close();
@@ -47,7 +46,7 @@ public class DemoApiBDA {
 		}
 		
 		
-		SQLConfiguration sqlConfiguration = new SQLConfiguration(
+		SQLConfiguration sqlConfiguration = new SQLConfiguration(  // conf SQL pour connexion a la base de données
 				"mysql",
 				"mysql-agp-antilles.alwaysdata.net",
 				"agp-antilles_database",
@@ -58,13 +57,15 @@ public class DemoApiBDA {
 		TextualConfiguration textualConfiguration = new TextualConfiguration(
 				sourcePath,
 				indexPath,
-				"Place",
-				"id"
+				"Site",
+				"name"
 		);
 		
 		try {
-			// Establish the connection
+			// connexion à la base de données 
 			ExtendedDatabaseAPI database = new ExtendedDatabaseAPI(sqlConfiguration, textualConfiguration);
+			
+			System.out.println("la connexion à la base de données " , database);
 			
 			// 1. Simple query
 			// ============================
@@ -89,9 +90,9 @@ public class DemoApiBDA {
 			}
 			
 			
-			// 2. Textual query
-			// ============================
-			System.out.println("textual query : \n");
+			
+			//  requete textuelle
+			System.out.println("requete textuelle: \n",);
 			TextualResults textualResults = database.textualQuery("musée");
 			
 			// Display the results with a for loop
