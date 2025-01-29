@@ -50,25 +50,31 @@ public class SitePersistence {
 	}
 	
 	private static Site getSiteObject(MixedResult tuple) {
-    try {
-        int id = Integer.parseInt(tuple.getAttribute("id"));
-        TypeSite type = TypeSite.fromString(tuple.getAttribute("type"));
-        String name = tuple.getAttribute("name");
-        int duration = (int)Double.parseDouble(tuple.getAttribute("duration"));
-        double entryPrice = Double.parseDouble(tuple.getAttribute("entryPrice"));
-        double latitude = Double.parseDouble(tuple.getAttribute("latitude"));
-        double longitude = Double.parseDouble(tuple.getAttribute("longitude"));
-        int idIsland = Integer.parseInt(tuple.getAttribute("idIsland"));
-        
-        Coordinates coordinates = new Coordinates(latitude, longitude);
-        Island island = IslandPersistence.getIslandById(idIsland);
-        String description = tuple.getContent();
-        return new Site(id, name, entryPrice, duration, coordinates, island, type, description);
-    } catch (NumberFormatException e) {
-        System.err.println("Erreur de conversion des données: " + e.getMessage());
-        return null;
-    }
-}
+	    try {
+	        // Récupération des attributs de base
+	        int id = Integer.parseInt(tuple.getAttribute("id"));
+	        TypeSite type = TypeSite.fromString(tuple.getAttribute("type"));
+	        String name = tuple.getAttribute("name");
+	        int duration = (int)Double.parseDouble(tuple.getAttribute("duration"));
+	        double entryPrice = Double.parseDouble(tuple.getAttribute("entryPrice"));
+	        double latitude = Double.parseDouble(tuple.getAttribute("latitude"));
+	        double longitude = Double.parseDouble(tuple.getAttribute("longitude"));
+	        int idIsland = Integer.parseInt(tuple.getAttribute("idIsland"));
+	        
+	        // Création des objets complexes
+	        Coordinates coordinates = new Coordinates(latitude, longitude);
+	        Island island = IslandPersistence.getIslandById(idIsland);
+	        
+	        // Récupération de la description via ExtendedDatabaseAPI
+	        ExtendedDatabaseAPI api = Database.getConnection();
+	        String description = api.getDescriptionById(id);
+	        
+	        return new Site(id, name, entryPrice, duration, coordinates, island, type, description);
+	    } catch (Exception e) {
+	        System.err.println("Erreur lors de la création du Site: " + e.getMessage());
+	        return null;
+	    }
+	}
 	
 	public static List<Site> getSites(String keywords) {
 		List<Site> Sites = new LinkedList<Site>();

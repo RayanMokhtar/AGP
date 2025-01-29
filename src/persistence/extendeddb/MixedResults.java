@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class MixedResults implements Iterable<MixedResult> {
 	private List<MixedResult> tuples;
+	private List<Integer> scoreList;
 	private int currentIndex;
 	
 	/**
@@ -70,5 +71,13 @@ public class MixedResults implements Iterable<MixedResult> {
 	@Override
 	public Iterator<MixedResult> iterator() {
 		return tuples.iterator();
+	}
+
+	public List<Integer> getScoreList() {
+		return scoreList;
+	}
+
+	public void setScoreList(List<Integer> scoreList) {
+		this.scoreList = scoreList;
 	}
 }

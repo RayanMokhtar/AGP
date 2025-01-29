@@ -58,7 +58,7 @@ public class DemoApiBDA {
 		TextualConfiguration textualConfiguration = new TextualConfiguration(
 				sourcePath,
 				indexPath,
-				"Place",
+				"Site",
 				"id"
 		);
 		
@@ -69,7 +69,7 @@ public class DemoApiBDA {
 			// 1. Simple query
 			// ============================
 			System.out.println("simple query : \n");
-			SQLResults sqlResults = database.simpleQuery("SELECT name, type FROM Site WHERE type = 'historic'");
+			SQLResults sqlResults = database.simpleQuery("SELECT * FROM Site WHERE type = 'historic'");
 			
 			// Display the results with a for loop
 			System.out.println("Test de requete simple :\n");
@@ -92,7 +92,7 @@ public class DemoApiBDA {
 			// 2. Textual query
 			// ============================
 			System.out.println("textual query : \n");
-			TextualResults textualResults = database.textualQuery("musée");
+			TextualResults textualResults = database.textualQuery("musee");
 			
 			// Display the results with a for loop
 			for (TextualResult textualResult : textualResults) {
@@ -119,7 +119,7 @@ public class DemoApiBDA {
 			System.out.println("Mixed results :\n");
 			// 3. Mixed query
 			// ============================
-			MixedResults mixedResults = database.mixedQuery("SELECT id, name, type, duration, entryPrice, latitude, longitude, idIsland FROM Site WITH musée");
+			MixedResults mixedResults = database.mixedQuery("SELECT id, name, type, duration, entryPrice, latitude, longitude, idIsland FROM Site WITH musee");
 			
 			// Display the results with a for loop
 			for (MixedResult mixedResult : mixedResults) {

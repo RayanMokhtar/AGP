@@ -50,7 +50,7 @@ public class DemoBusinessBDA {
 		}
 		
 		// sites
-		List<Site> sites = SitePersistence.getSites("musée");
+		List<Site> sites = SitePersistence.getSites("MUSéEs");
 		
 		for (Site site : sites) {
 			System.out.println("========= site : "
