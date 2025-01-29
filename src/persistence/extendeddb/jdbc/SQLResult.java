@@ -55,4 +55,11 @@ public class SQLResult {
 	public String getAttribute(String attribute) {
 		return attributes.get(attribute);
 	}
+	
+	 @Override
+    public String toString() {
+        return "SQLResult{" +
+                "attributes=" + attributes +
+                '}';
+    }
 }

@@ -16,7 +16,6 @@ import persistence.extendeddb.jdbc.SQLResults;
 public class HotelPersistence implements HotelDAO {
 
     public HotelPersistence() {
-        // Constructeur privé pour empêcher l'instanciation
     }
 
     private static SQLResults getHotelsResults(String whereClause) {

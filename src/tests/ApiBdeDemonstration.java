@@ -64,9 +64,7 @@ import persistence.extendeddb.lucene.TextualResults;
 		try {
 			// connexion à la base de données 
 			ExtendedDatabaseAPI database = new ExtendedDatabaseAPI(sqlConfiguration, textualConfiguration);
-			
-			System.out.println("la connexion à la base de données " , database);
-			
+						
 			// 1. Simple query
 			// ============================
 			System.out.println("simple query : \n");
@@ -92,7 +90,7 @@ import persistence.extendeddb.lucene.TextualResults;
 			
 			
 			//  requete textuelle
-			System.out.println("requete textuelle: \n",);
+			System.out.println("requete textuelle: \n");
 			TextualResults textualResults = database.textualQuery("musée");
 			
 			// Display the results with a for loop

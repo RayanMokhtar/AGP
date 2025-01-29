@@ -27,18 +27,8 @@ public class Simulation {
 		
 		// Creation of offers based on client criteria
 		UserCriteria preferences = new UserCriteria();
-		preferences.setPlaceType(PLACE_TYPE);
-		preferences.setKeywords(KEYWORDS);
-		preferences.setMinimumPrice(MINIMUM_PRICE);
-		preferences.setMaximumPrice(MAXIMUM_PRICE);
-		preferences.setNumberOfDays(NUMBER_OF_DAYS);
-		preferences.setExcursionsFrequency(EXCURSIONS_FREQUENCY);
-		preferences.setMaximumTransportDuration(MAXIMUM_TRANSPORT_DURATION);
 		
 		
-		OffersBuilder offersBuilder = new OffersBuilder(preferences);
-		List<Offer> offers = offersBuilder.buildOffers();
-		
-		Tools.displayOffers(offers);
+	
 	}
 }

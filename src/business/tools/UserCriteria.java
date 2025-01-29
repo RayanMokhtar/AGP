@@ -128,6 +128,16 @@ public class UserCriteria {
 
 
 
+	@Override
+	public String toString() {
+		return "UserCriteria [nbDays=" + nbDays + ", minPrice=" + minPrice + ", maxPrice=" + maxPrice + ", intensity="
+				+ intensity + ", comfort=" + comfort + ", visitedPlacesPerDay=" + visitedPlacesPerDay
+				+ ", descriptionSite=" + descriptionSite + ", typesite=" + typesite + ", hotelStars=" + hotelStars
+				+ "]";
+	}
+
+
+
 	public void setHotelStars(int hotelStars) {
 		this.hotelStars = hotelStars;
 	}

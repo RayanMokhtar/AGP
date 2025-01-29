@@ -35,4 +35,14 @@ public class TextualResult {
     public String getContent() {
         return content;
     }
+    
+    @Override
+    public String toString() {
+        return "TextualResult{" +
+                "id=" + id +
+                ", score=" + score +
+                ", content='" + content + '\'' +
+                '}';
+    }
+    
 }

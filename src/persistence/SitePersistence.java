@@ -15,7 +15,7 @@ import persistence.extendeddb.MixedResults;
 
 public class SitePersistence implements SiteDAO {
 
-    private SitePersistence() {
+    public SitePersistence() {
         // Constructeur privé pour empêcher l'instanciation
     }
 

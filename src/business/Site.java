@@ -92,6 +92,13 @@ public class Site {
 	public void setDescription(String Description) {
 		this.description = Description ; 
 	}
+
+	@Override
+	public String toString() {
+		return "Site [id=" + id + ", name=" + name + ", entryPrice=" + entryPrice + ", duration=" + duration
+				+ ", coordinates=" + coordinates + ", island=" + island + ", type=" + type + ", description="
+				+ description + "]";
+	}
 }
 
     

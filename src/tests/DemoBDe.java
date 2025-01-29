@@ -63,17 +63,17 @@ public class DemoBDe {
 		);
 		
 		try {
-			// Establish the connection
+			// établir la connexion à l'API
 			ExtendedDatabaseAPI database = new ExtendedDatabaseAPI(sqlConfiguration, textualConfiguration);
 			
 			// 1. Simple query
-			// ============================
 			System.out.println("simple query : \n");
 			SQLResults sqlResults = database.simpleQuery("SELECT name, type FROM Site WHERE type = 'historic'");
 			
 			// Display the results with a for loop
 			System.out.println("Test de requete simple :\n");
 			for (SQLResult sqlResult : sqlResults) {
+				System.out.println("Sql result est : "+sqlResult);
 				System.out.println(sqlResult.getAttribute("name"));
 			}
 			
@@ -96,10 +96,9 @@ public class DemoBDe {
 			
 			// Display the results with a for loop
 			for (TextualResult textualResult : textualResults) {
-				System.out.println("[id] " + textualResult.getId()
-								   + " [score] " + textualResult.getScore()
-								   + " [content] " + textualResult.getContent()
-				);
+				System.out.println("textual query : \n");
+				System.out.println("text result est : "+textualResult);
+
 			}
 			
 			// Display the results with a while loop
@@ -116,7 +115,7 @@ public class DemoBDe {
 			
 			
 			
-			System.out.println("Mixed results :\n");
+			System.out.println("résultat des deux typologies de requetes :\n");
 			// 3. Mixed query
 			// ============================
 			MixedResults mixedResults = database.mixedQuery("SELECT id, name, type, duration, entryPrice, latitude, longitude, idIsland FROM Site WITH musée");

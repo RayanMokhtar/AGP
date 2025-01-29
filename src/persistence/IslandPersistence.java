@@ -12,7 +12,7 @@ import persistence.extendeddb.jdbc.SQLResults;
 
 public class IslandPersistence implements IslandDAO {
 
-    private IslandPersistence() {
+    public IslandPersistence() {
         // Constructeur privé pour empêcher l'instanciation
     }
 
