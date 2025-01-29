@@ -12,11 +12,7 @@ import persistence.extendeddb.jdbc.SQLResults;
 
 public class IslandPersistence implements IslandDAO {
 
-<<<<<<< HEAD
     public IslandPersistence() {
-=======
-    private IslandPersistence() {
->>>>>>> 808ddea8e60c34241b0fa2c327744bc939c74535
         // Constructeur privé pour empêcher l'instanciation
     }
 
@@ -80,24 +76,4 @@ public class IslandPersistence implements IslandDAO {
         return result;
     }
 
-<<<<<<< HEAD
-=======
-    @Override
-    public List<Island> findByIsland(Island island) {
-        List<Island> islands = new LinkedList<>();
-        if (island == null) {
-            return islands;
-        }
-        ExtendedDatabaseAPI database = Database.getConnection();
-        try {
-            SQLResults results = database.simpleQuery("SELECT * FROM Island WHERE id = " + island.getId());
-            while (results.hasNext()) {
-                islands.add(getIslandObject(results.next()));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return islands;
-    }
->>>>>>> 808ddea8e60c34241b0fa2c327744bc939c74535
 }

@@ -15,10 +15,7 @@
 	<classpathentry kind="lib" path="C:/Users/darkf/eclipse-workspace/AGP/libs/commons-logging.jar"/>
 	<classpathentry kind="lib" path="C:/Users/darkf/eclipse-workspace/AGP/libs/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/darkf/eclipse-workspace/AGP/libs/ejb3-persistence.jar"/>
-<<<<<<< HEAD
 	<classpathentry kind="lib" path="C:/Users/darkf/eclipse-workspace/AGP/libs/hamcrest-3.0.jar"/>
-=======
->>>>>>> 808ddea8e60c34241b0fa2c327744bc939c74535
 	<classpathentry kind="lib" path="C:/Users/darkf/eclipse-workspace/AGP/libs/hibernate3.jar"/>
 	<classpathentry kind="lib" path="C:/Users/darkf/eclipse-workspace/AGP/libs/hibernate-annotations.jar"/>
 	<classpathentry kind="lib" path="C:/Users/darkf/eclipse-workspace/AGP/libs/hibernate-commons-annotations.jar"/>
@@ -30,16 +27,7 @@
 	<classpathentry kind="lib" path="C:/Users/darkf/eclipse-workspace/AGP/libs/jstl-api-1.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/darkf/eclipse-workspace/AGP/libs/jstl-impl-1.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/darkf/eclipse-workspace/AGP/libs/jta-1.1.jar"/>
-<<<<<<< HEAD
 	<classpathentry kind="lib" path="C:/Users/darkf/eclipse-workspace/AGP/libs/junit-4.12.jar"/>
-=======
-	<classpathentry kind="lib" path="C:/Users/darkf/eclipse-workspace/AGP/libs/junit.jar"/>
-	<classpathentry kind="lib" path="C:/Users/darkf/eclipse-workspace/AGP/libs/junit-4.13.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/darkf/eclipse-workspace/AGP/libs/junit-jupiter-api-5.11.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/darkf/eclipse-workspace/AGP/libs/junit-platform-launcher-1.11.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/darkf/eclipse-workspace/AGP/libs/junit-platform-runner-1.11.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/darkf/eclipse-workspace/AGP/libs/junit-platform-suite-api-1.11.4.jar"/>
->>>>>>> 808ddea8e60c34241b0fa2c327744bc939c74535
 	<classpathentry kind="lib" path="C:/Users/darkf/eclipse-workspace/AGP/libs/log4j.jar"/>
 	<classpathentry kind="lib" path="C:/Users/darkf/eclipse-workspace/AGP/libs/log4j-1.2.15.jar"/>
 	<classpathentry kind="lib" path="C:/Users/darkf/eclipse-workspace/AGP/libs/lucene-analysis-common-10.1.0.jar"/>
