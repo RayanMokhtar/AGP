@@ -1,0 +1,19 @@
+#fichier 
+*.class
+*.log
+*.tmp
+*.swp
+
+#Dossiers générés par l'ide
+.classpath
+.project
+.settings/
+
+
+#Dossiers de compilation 
+bin/
+target/
+build/
+
+#Bibliothèques locales 
+lib/

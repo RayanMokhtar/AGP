@@ -1,6 +1,3 @@
-/**
- * 
- */
 package persistence;
 
 import java.sql.SQLException;
@@ -8,54 +5,44 @@ import java.util.LinkedList;
 import java.util.List;
 
 import business.Island;
+import dao.IslandDAO;
 import persistence.extendeddb.ExtendedDatabaseAPI;
 import persistence.extendeddb.jdbc.SQLResult;
 import persistence.extendeddb.jdbc.SQLResults;
 
-/**
- *
- */
-public class IslandPersistence {
-	
-	private IslandPersistence() {
-		
-	}
-	
-	private static SQLResults getIslandsResults() {
-		SQLResults sqlResults = null;
-		ExtendedDatabaseAPI database = Database.getConnection();
-		
-		try {
-			sqlResults = database.simpleQuery("SELECT * FROM Island");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return sqlResults;
-	}
-	
-	private static Island getIslandObject(SQLResult tuple) {
-		int id;
-		String name;
-		
-		id = Integer.parseInt(tuple.getAttribute("id"));
-		name = tuple.getAttribute("name");
-		
-		return new Island(id, name);
-	}
-	
-	public static List<Island> getIslands() {
-		List<Island> islands = new LinkedList<Island>();
-		SQLResults tuples = getIslandsResults();
-		
-		for (SQLResult tuple : tuples) {
-			islands.add(getIslandObject(tuple));
-		}
-		
-		return islands;
-	}
+public class IslandPersistence implements IslandDAO {
 
-	public static Island getIslandById(int id) {
+    public IslandPersistence() {
+        // Constructeur privé pour empêcher l'instanciation
+    }
+
+    private static SQLResults getIslandsResults() {
+        SQLResults sqlResults = null;
+        ExtendedDatabaseAPI database = Database.getConnection();
+        try {
+            sqlResults = database.simpleQuery("SELECT * FROM Island");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return sqlResults;
+    }
+
+    private static Island getIslandObject(SQLResult tuple) {
+        int id = Integer.parseInt(tuple.getAttribute("id"));
+        String name = tuple.getAttribute("name");
+        return new Island(id, name);
+    }
+
+    public static List<Island> getIslands() {
+        List<Island> islands = new LinkedList<>();
+        SQLResults tuples = getIslandsResults();
+        for (SQLResult tuple : tuples) {
+            islands.add(getIslandObject(tuple));
+        }
+        return islands;
+    }
+
+    public static Island getIslandById(int id) {
         ExtendedDatabaseAPI database = Database.getConnection();
         SQLResults results = null;
         try {
@@ -68,4 +55,25 @@ public class IslandPersistence {
         }
         return null;
     }
+
+    @Override
+    public Island findById(int id) {
+        return getIslandById(id);
+    }
+
+    @Override
+    public Island findByName(String name) {
+        Island result = null;
+        ExtendedDatabaseAPI database = Database.getConnection();
+        try {
+            SQLResults results = database.simpleQuery("SELECT * FROM Island WHERE name = '" + name + "'");
+            if (results.hasNext()) {
+                result = getIslandObject(results.next());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 }

@@ -14,8 +14,8 @@ import javax.faces.model.SelectItem;
 
 import business.Offer;
 import business.Site;
-import business.tools.OffersBuilder;
-import business.tools.UserPreferences;
+import business.tools.OfferBuilder;
+import business.tools.Use;
 import persistence.PlacePersistence;
 
 /**
