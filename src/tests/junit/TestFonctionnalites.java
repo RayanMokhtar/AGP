@@ -3,6 +3,7 @@ package tests.junit;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -133,6 +134,12 @@ public class TestFonctionnalites {
         criteria.setDescriptionSite("plage");
         List<Site> sites = siteDAO.findByCriteria(criteria);
         assertNotNull(sites);
+        for (Site site : sites) {
+            assertEquals(TypeSite.HOBBIES, site.getType());
+        assertNotNull(site.getDescription());
+        assertTrue("La description doit contenir 'plage'",
+                   site.getDescription().contains("plage"));
+        }
         // Peut être vide si aucun site ne correspond exactement
     }
 }
