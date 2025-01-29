@@ -6,7 +6,7 @@ body, html {
     padding: 0;
     height: 100%;
     font-family: 'Arial', sans-serif;
-    overflow: hidden; /* Empêche le défilement */
+     overflow: auto; /* Permet le défilement */
 }
 
 /* Arrière-plan flouté */
@@ -85,3 +85,4 @@ input:focus, select:focus, textarea:focus {
 .button:hover {
     background-color: #0056b3; /* Bleu plus foncé */
 }
+

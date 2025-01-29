@@ -89,27 +89,43 @@
             <h:commandButton class="button" value="Soumettre" action="#{entryBean.submit}" />
         </h:form>
         
-        <!-- Affichage des résultats -->
-    <h:form>
-        <h:dataTable value="#{entryBean.results}" var="result">
-            <h:column>
-                <f:facet name="header">Hotel Name</f:facet>
-                #{result.hotelName} <!-- Afficher le nom de l'hôtel -->
-            </h:column>
 
-            <h:column>
-                <f:facet name="header">Island Name</f:facet>
-                #{result.islandName} <!-- Afficher le nom de l'île -->
-            </h:column>
+        <h:form>
+    <h:dataTable value="#{entryBean.results}" var="offer">
+        <h:column>
+            <f:facet name="header">Offre</f:facet>
+            <h:outputText value="Offre #{entryBean.results.indexOf(offer) + 1}" />
+        </h:column>
+    </h:dataTable>
+</h:form>
 
-            <h:column>
-                <f:facet name="header">Final Price</f:facet>
-                #{result.finalPrice} <!-- Afficher le prix final -->
-            </h:column>
-        </h:dataTable>
-    </h:form>
 
-    
+
+<h:form>
+    <ui:repeat value="#{entryBean.results}" var="offer" varStatus="status">
+        <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
+            <h2>Offre #{status.index + 1}</h2>
+            <h3>Nombre de jours: #{offer.nbDays}</h3>
+
+            <p><strong>Excursions :</strong></p>
+            <ui:repeat value="#{offer.excursions}" var="excursion">
+                <div style="margin-left: 15px; padding: 5px;">
+                    <p>- Départ de l'hôtel : #{excursion.hotelDeparture.name}</p>
+                    <p>- Arrivée à l'hôtel : #{excursion.hotelArrival.name}</p>
+                    <p>- Coût de l'excursion : #{excursion.excursionCost} €</p>
+                    <p>- Lieux visités :</p>
+                    <ul>
+                        <ui:repeat value="#{excursion.placesVisited}" var="visit">
+                            <li>#{visit.site.name} (Transport: #{visit.transport.getTransportType()}, Coût: #{visit.costVisit} €, Durée: #{visit.durationVisit} heures)</li>
+                        </ui:repeat>
+                    </ul>
+                </div>
+            </ui:repeat>
+
+            <p><strong>Prix final :</strong> #{offer.finalPrice} €</p>
+        </div>
+    </ui:repeat>
+</h:form>
 </h:body>
 
 </html>

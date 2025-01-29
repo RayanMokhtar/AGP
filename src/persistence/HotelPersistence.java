@@ -18,7 +18,7 @@ import persistence.extendeddb.jdbc.SQLResults;
  */
 public class HotelPersistence implements HotelDAO {
     
-    private HotelPersistence() {
+    public HotelPersistence() {
         
     }
     

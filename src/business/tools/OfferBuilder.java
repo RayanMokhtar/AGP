@@ -215,8 +215,6 @@ public class OfferBuilder {
         return offer;
     }
 
-
-
     
 //méthode pour générer plusieurs offres , ce qui change c'est mon hotel de base je vais prendre le moins cher du plus cher
 // et si j'ai pas assez dhotels pour générer mes offres je coupe l'algorithme
