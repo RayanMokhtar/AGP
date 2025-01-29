@@ -1,0 +1,87 @@
+@charset "UTF-8" ;
+
+/* Style pour le corps de la page */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Arial', sans-serif;
+    overflow: hidden; /* Empêche le défilement */
+}
+
+/* Arrière-plan flouté */
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('images/test.jpg'); /* Chemin vers votre image */
+    background-size: cover; /* Ajuste l'image pour couvrir tout l'arrière-plan */
+    background-position: center; /* Centre l'image */
+    filter: blur(8px); /* Applique un flou à l'arrière-plan */
+    z-index: -1; /* Place l'arrière-plan derrière le contenu */
+}
+
+/* Style général du titre */
+h1 {
+    color: white; /* Couleur du texte */
+    font-size: 36px; /* Taille du titre */
+    text-align: center;
+    margin-top: 20px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Ombre du texte */
+}
+
+/* Style général pour le formulaire */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centre les éléments horizontalement */
+    margin: 0 auto;
+    padding: 20px;
+    width: 100%;
+    max-width: 600px; /* Réduction de la largeur maximale du formulaire */
+    background: #f8f9fa; /* Fond gris clair */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Légère ombre */
+}
+
+/* Style des champs de saisie */
+input, select, textarea {
+    width: 100%; /* Champs pleine largeur */
+    padding: 10px;
+    margin: 0; /* Pas de marge individuelle pour les inputs */
+    font-size: 16px;
+    border: 1px solid #ccc; /* Bordure grise */
+    border-radius: 5px; /* Coins arrondis */
+    box-sizing: border-box;
+    background: #fff; /* Fond blanc */
+}
+
+/* Focus sur les champs */
+input:focus, select:focus, textarea:focus {
+    border-color: #007BFF; /* Couleur bleue au focus */
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+
+/* Style du bouton */
+.button {
+    width: 100%; /* Largeur totale */
+    padding: 12px;
+    margin-top: 20px; /* Espacement avec les autres éléments */
+    font-size: 16px;
+    font-weight: bold;
+    color: white; /* Texte blanc */
+    background-color: #007BFF; /* Bleu standard */
+    border: none; /* Pas de bordure */
+    border-radius: 5px; /* Coins arrondis */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Effet au survol sur le bouton */
+.button:hover {
+    background-color: #0056b3; /* Bleu plus foncé */
+}

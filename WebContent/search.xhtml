@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<link rel="stylesheet" type="text/css" href="styles1.css" />
+	<title>Recherche de voyages</title>
+	<link rel="icon" type="image/png" href="ile.png" />
+</h:head>
+<h:body>
+	<div class="background"></div>
+
+
+
+	<h1>Recherche de voyages</h1>
+
+	<!-- Formulaire de recherche -->
+	<h:form>
+		<!-- Menu déroulant pour sélectionner le type de recherche -->
+		<p:selectOneMenu value="#{entryBean.searchType}">
+			<f:selectItem itemValue="default"
+				itemLabel="Choisissez un hôtel ou un site" />
+			<f:selectItem itemValue="HOTEL" itemLabel="Hôtel" />
+			<f:selectItem itemValue="SITE" itemLabel="Site touristique" />
+			<!-- AJAX pour mettre à jour dynamiquement -->
+			<f:ajax render="dynamicInputs" />
+		</p:selectOneMenu>
+
+		<!-- Champ commun "island" -->
+		<h:outputLabel for="island" value="Île :" />
+		<h:selectOneMenu id="island" value="#{entryBean.island}"
+			required="true">
+			<f:selectItem itemValue="Toutes" itemLabel="Toutes les iles" />
+			<f:selectItem itemValue="ST_BART" itemLabel="Saint-Barth" />
+			<f:selectItem itemValue="ST_MARTIN" itemLabel="Saint-Martin" />
+			<f:selectItem itemValue="GUADELOUPE" itemLabel="Guadeloupe" />
+			<f:selectItem itemValue="ST_CHRISTOPHE" itemLabel="Saint-Christophe" />
+			<f:selectItem itemValue="DOMINIQUE" itemLabel="Dominique" />
+		</h:selectOneMenu>
+
+		<!-- Champs dynamiques -->
+		<h:panelGroup id="dynamicInputs" layout="block">
+			<!-- Affiche les champs pour HÔTEL -->
+			<h:panelGroup rendered="#{entryBean.searchType == 'HOTEL'}">
+				<h:outputLabel for="hotelName" value="Nom de l'hôtel:" />
+				<h:inputText id="hotelName" value="#{entryBean.hotelName}"
+					type="text" />
+				<h:outputLabel for="hotelPrice" value="Prix de l'hôtel:" />
+				<h:inputText id="hotelPrice" value="#{entryBean.hotelPrice}"
+					type="number" />
+
+				<h:outputLabel for="hotelStars" value="Nombre d'étoiles:" />
+				<h:selectOneMenu id="hotelStars" value="#{entryBean.hotelStars}"
+					required="true">
+					<f:selectItem itemValue="1default" itemLabel="Par défaut" />
+					<f:selectItem itemValue="1" itemLabel="1 étoile" />
+					<f:selectItem itemValue="2" itemLabel="2 étoiles" />
+					<f:selectItem itemValue="3" itemLabel="3 étoiles" />
+					<f:selectItem itemValue="4" itemLabel="4 étoiles" />
+					<f:selectItem itemValue="5" itemLabel="5 étoiles" />
+				</h:selectOneMenu>
+			</h:panelGroup>
+
+			<!-- Affiche les champs pour SITE -->
+			<h:panelGroup id="resultPanel"
+				rendered="#{entryBean.searchType == 'SITE'}">
+				<h:outputLabel for="siteDescription" value="Description du site:" />
+				<h:inputText id="siteDescription"
+					value="#{entryBean.siteDescription}" />
+
+				<h:outputLabel for="siteType" value="Type de site:" />
+				<h:selectOneMenu id="siteType" value="#{entryBean.siteType}">
+					<f:selectItem itemValue="All" itemLabel="Tout type" />
+					<f:selectItem itemValue="Loisir" itemLabel="Loisir" />
+					<f:selectItem itemValue="Historique" itemLabel="Historique" />
+				</h:selectOneMenu>
+				<h:outputLabel for="sitePrice" value="Prix de l'entrée du site:" />
+				<h:inputText id="sitePrice" value="#{entryBean.sitePrice}"
+					type="number" placeholder="Entrez un prix " />
+			</h:panelGroup>
+		</h:panelGroup>
+
+		<!-- Bouton pour soumettre -->
+		<p:commandButton value="Chercher"
+			action="#{entryBean.displayInConsole}">
+			<f:ajax execute="@form" render=":resultPanel" />
+		</p:commandButton>
+	</h:form>
+
+</h:body>
+</html>
