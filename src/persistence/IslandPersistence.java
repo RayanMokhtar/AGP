@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import business.Island;
+import dao.IslandDAO;
 import persistence.extendeddb.ExtendedDatabaseAPI;
 import persistence.extendeddb.jdbc.SQLResult;
 import persistence.extendeddb.jdbc.SQLResults;
@@ -15,7 +16,7 @@ import persistence.extendeddb.jdbc.SQLResults;
 /**
  *
  */
-public class IslandPersistence {
+public class IslandPersistence implements IslandDAO {
 	
 	private IslandPersistence() {
 		

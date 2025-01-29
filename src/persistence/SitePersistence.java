@@ -10,6 +10,7 @@ import business.Coordinates;
 import business.Island;
 import business.Site;
 import business.tools.TypeSite;
+import dao.SiteDAO;
 import persistence.extendeddb.ExtendedDatabaseAPI;
 import persistence.extendeddb.MixedResult;
 import persistence.extendeddb.MixedResults;
@@ -17,7 +18,7 @@ import persistence.extendeddb.MixedResults;
 /**
  *
  */
-public class SitePersistence {
+public class SitePersistence implements SiteDAO {
 	
 	private SitePersistence() {
 		

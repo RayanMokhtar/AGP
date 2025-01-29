@@ -7,14 +7,16 @@ import java.util.List;
 import business.Coordinates;
 import business.Hotel;
 import business.Island;
+import dao.HotelDAO;
 import persistence.extendeddb.ExtendedDatabaseAPI;
 import persistence.extendeddb.jdbc.SQLResult;
 import persistence.extendeddb.jdbc.SQLResults;
 
+
 /**
  *
  */
-public class HotelPersistence {
+public class HotelPersistence implements HotelDAO {
     
     private HotelPersistence() {
         
