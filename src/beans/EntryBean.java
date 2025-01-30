@@ -22,7 +22,12 @@ import business.tools.SiteSelector;
 
 @ManagedBean
 @SessionScoped
-public class EntryBean {
+public class EntryBean implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String searchType;
 	private String hotelName;
 	private String island;

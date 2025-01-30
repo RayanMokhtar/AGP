@@ -40,11 +40,14 @@ public class SQLSearcher {
      * @return Connection
      */
     private Connection getConnection() throws SQLException {
-        if (jdbcConnection == null) {
-            jdbcConnection = DriverManager.getConnection(url, user, password);
-        }
-        return jdbcConnection;
-    }
+    	 if (jdbcConnection == null) {
+    	     String fullUrl = "jdbc:mysql://mysql-agp-antilles.alwaysdata.net:3306/agp-antilles_database?useSSL=false&serverTimezone=UTC";
+
+             jdbcConnection = DriverManager.getConnection(fullUrl, user, password);
+         }
+         return jdbcConnection;
+     }
+       
 
     /**
      * search
