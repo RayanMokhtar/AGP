@@ -11,7 +11,7 @@ public class TestFonctionnalites {
 
 	        // 1) Charger le contexte Spring (applicationContext.xml)
 	        ApplicationContext context =
-	            new ClassPathXmlApplicationContext("spring.xml");
+	            new ClassPathXmlApplicationContext("Buspring.xml");
 
 	        // 2) Récupérer le bean SiteSelector
 	        SiteSelector siteSelector = context.getBean("siteSelector", SiteSelector.class);

@@ -30,6 +30,10 @@ public class Coordinates {
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
+	@Override
+	public String toString() {
+		return "Coordinates [latitude=" + latitude + ", longitude=" + longitude + "]";
+	}
 	
 	/*public static void main(String[] args) {
 		Coordinates c1 = new Coordinates(48.862725, 2.287592);

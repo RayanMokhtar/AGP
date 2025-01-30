@@ -13,6 +13,12 @@ public class VisitTransport {
         this.costVisit = costVisit;
     }
 
+	@Override
+	public String toString() {
+		return "VisitTransport [site=" + site + ", transport=" + transport + ", durationVisit=" + durationVisit
+				+ ", costVisit=" + costVisit + "]";
+	}
+
 	public Site getSite() {
 		return site;
 	}
