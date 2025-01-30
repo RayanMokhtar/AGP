@@ -90,14 +90,7 @@
         </h:form>
         
 
-        <h:form>
-    <h:dataTable value="#{entryBean.results}" var="offer">
-        <h:column>
-            <f:facet name="header">Offre</f:facet>
-            <h:outputText value="Offre #{entryBean.results.indexOf(offer) + 1}" />
-        </h:column>
-    </h:dataTable>
-</h:form>
+   
 
 
 
@@ -108,8 +101,9 @@
             <h3>Nombre de jours: #{offer.nbDays}</h3>
 
             <p><strong>Excursions :</strong></p>
-            <ui:repeat value="#{offer.excursions}" var="excursion">
+            <ui:repeat value="#{offer.excursions}" var="excursion" varStatus="excursionStatus">
                 <div style="margin-left: 15px; padding: 5px;">
+                    <h4>Excursion Jour #{excursionStatus.index + 1}</h4>
                     <p>- Départ de l'hôtel : #{excursion.hotelDeparture.name}</p>
                     <p>- Arrivée à l'hôtel : #{excursion.hotelArrival.name}</p>
                     <p>- Coût de l'excursion : #{excursion.excursionCost} €</p>
@@ -126,6 +120,7 @@
         </div>
     </ui:repeat>
 </h:form>
+
 </h:body>
 
 </html>
