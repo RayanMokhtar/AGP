@@ -33,7 +33,7 @@ public class MixedQueryTest {
 		TextualConfiguration textualConfiguration = new TextualConfiguration(
 				sourcePath,
 				indexPath,
-				"Place",
+				"Site",
 				"id"
 		);
 		

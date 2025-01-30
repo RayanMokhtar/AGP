@@ -58,7 +58,7 @@ import persistence.extendeddb.lucene.TextualResults;
 				sourcePath,
 				indexPath,
 				"Site",
-				"name"
+				"id"
 		);
 		
 		try {

@@ -115,7 +115,7 @@ public class DemoBDe {
 			
 			
 			
-			System.out.println("résultat des deux typologies de requetes :\n");
+			System.out.println("résultat des deux typologies de requetes :\n\n\n\n");
 			// 3. Mixed query
 			// ============================
 			MixedResults mixedResults = database.mixedQuery("SELECT id, name, type, duration, entryPrice, latitude, longitude, idIsland FROM Site WITH musée");
