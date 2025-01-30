@@ -70,7 +70,7 @@ public class OfferBuilder {
 
 		public void initialize(UserCriteria criteria) {
 	        // Récupérer et filtrer les hôtels et sites en fonction des critères
-	        this.filteredHotels = hotelSelector.getHotelsByCriteria(criteria);
+	        this.filteredHotels = hotelSelector.getAllHotels();
 	        this.filteredSites = siteSelector.getAllSites();
 
 	        System.out.println("Hôtels filtrés: " + filteredHotels.size());

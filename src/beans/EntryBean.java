@@ -1,20 +1,27 @@
 package beans;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import business.Offer;
+import business.tools.HotelSelector;
 import business.tools.Intensity;
 import business.tools.TypeSite;
 import business.tools.UserCriteria;
+import dao.HotelDAO;
+import dao.SiteDAO;
+import persistence.HotelPersistence;
+import persistence.SitePersistence;
 import business.tools.OfferBuilder;
-import business.tools.TestOfferBuilder;
+import business.tools.SiteSelector;
 
 @ManagedBean
-@ViewScoped // pour le AJAX
+@SessionScoped
 public class EntryBean {
 	private String searchType;
 	private String hotelName;
@@ -97,10 +104,12 @@ public class EntryBean {
 	}
 
 	public void setNbDays(Integer nbDays) {
+		System.out.println("ok");
 		this.nbDays = nbDays;
 	}
 
 	public Integer getMinPrice() {
+		System.out.println("dasn getminPrice");
 		return minPrice;
 	}
 
@@ -171,8 +180,7 @@ public class EntryBean {
 	// Méthode de soumission
 	public String submit() {
 
-		// Afficher les données dans la console
-		// System.out.println("nbr de jours"+ nbDays);
+		System.out.println("nbr de jours");
 		// System.out.println("Prix minimum: " + minPrice);
 		// System.out.println("Prix max: " + maxPrice);
 		// System.out.println("comfort: " + comfort);
@@ -191,6 +199,8 @@ public class EntryBean {
 		criteria.setDescriptionSite(descriptionSite);
 		criteria.setTypesite(TypeSite.valueOf(typeSite.toUpperCase())); // Convertir String en enum
 		criteria.setHotelStars(hotelStars != null ? hotelStars : 0);
+		
+		System.out.println(criteria);
 
 		// Afficher les données dans la console
 		System.out.println("User Criteria:");
@@ -205,8 +215,26 @@ public class EntryBean {
 		System.out.println("HotelStars: " + criteria.getHotelStars());
 
 		// Génération des offres avec OfferBuilder
-        TestOfferBuilder offerBuilder = new TestOfferBuilder();
-        results = offerBuilder.generateOffer(); // Met à jour results
+		SiteDAO siteDAO = new SitePersistence();
+		HotelDAO hotelDAO = new HotelPersistence();
+		
+		HotelSelector hotelselector = new HotelSelector();
+		SiteSelector siteselector = new SiteSelector();
+		
+		hotelselector.setHotelDAO(hotelDAO);
+		siteselector.setSiteDAO(siteDAO);
+		
+		OfferBuilder offerbuilder = new OfferBuilder();
+		
+		offerbuilder.setHotelSelector(hotelselector);
+		offerbuilder.setSiteSelector(siteselector);
+		
+		results = offerbuilder.generateOffers(criteria,5);
+		
+		for (Offer offer : results) {
+		    System.out.println("Offer\n");
+		    System.out.println(offer);
+		}
 	  
 		return "null";
 	}
