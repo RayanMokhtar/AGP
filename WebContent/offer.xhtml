@@ -108,7 +108,11 @@
                         <div style="margin-left: 15px; padding: 5px;">
                             <h4>Excursion Jour #{excursionStatus.index + 1}</h4>
                             <p>- Départ de l'hôtel : #{excursion.hotelDeparture.name}</p>
-                            <p>- Coût de l'excursion : #{excursion.excursionCost} €</p>
+                            <p>- Coût de l'excursion:
+    <h:outputText value="#{excursion.excursionCost}">
+        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+    </h:outputText> €
+</p>
                             <p>- Lieux visités :</p>
                             <ui:fragment rendered="#{excursion.placesVisited.isEmpty()}">
                                 <p>Pas de lieu à visiter aujourd'hui , profitez de la plage</p>
@@ -116,14 +120,28 @@
                             <ui:fragment rendered="#{not excursion.placesVisited.isEmpty()}">
                                 <ul>
                                     <ui:repeat value="#{excursion.placesVisited}" var="visit">
-                                        <li>#{visit.site.name} (Transport: #{visit.transport.transportType}, Coût: #{visit.costVisit} €, Durée: #{visit.durationVisit} heures)</li>
-                                    </ui:repeat>
+            <li>
+                #{visit.site.name} (Transport: #{visit.transport.transportType}, 
+                Coût: 
+                <h:outputText value="#{visit.costVisit}">
+                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                </h:outputText> €, 
+                Durée: 
+                <h:outputText value="#{visit.durationVisit}">
+                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                </h:outputText> heures)
+            </li>
+        </ui:repeat>
                                 </ul>
                             </ui:fragment>
                         </div>
                     </ui:repeat>
         
-                    <p><strong>Prix final :</strong> #{offer.finalPrice} €</p>
+                    <p><strong>Prix final :</strong> 
+    <h:outputText value="#{offer.finalPrice}">
+        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+    </h:outputText> €
+</p>
                 </div>
             </ui:repeat>
         </h:form>
