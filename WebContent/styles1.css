@@ -6,7 +6,7 @@ body, html {
     padding: 0;
     height: 100%;
     font-family: 'Arial', sans-serif;
-    overflow: auto; /*défilement */
+    overflow: auto; /* Permet le défilement */
 }
 
 /* Arrière-plan flouté */
@@ -32,57 +32,69 @@ h1 {
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Ombre du texte */
 }
 
-/* Conteneur pour les formulaires */
+/* Conteneur pour le formulaire */
 .form-container {
     display: flex;
-    justify-content: space-around; /* Espace autour des formulaires */
-    padding: 20px;
+    justify-content: center;
+    align-items: center;
+    height: calc(100% - 80px); /* Ajuste la hauteur en fonction du titre */
 }
 
-/* Style pour les formulaires de recherche */
+/* Style pour le formulaire de recherche */
 .search-form {
-    background: #f8f9fa; /* Fond gris clair */
-    border-radius: 10px; /* Coins arrondis */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Légère ombre */
-    padding: 20px;
-    width: 45%; /* Largeur des formulaires */
-}
-
-/* Style des champs de saisie */
-input, select, textarea {
-    width: 100%; /* Champs pleine largeur */
-    padding: 10px;
-    margin: 10px 0; /* Espacement entre les champs */
-    font-size: 16px;
-    border: 1px solid #ccc; /* Bordure grise */
-    border-radius: 5px; /* Coins arrondis */
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    width: 400px;
     box-sizing: border-box;
-    background: #fff; /* Fond blanc */
 }
 
-/* Focus sur les champs */
-input:focus, select:focus, textarea:focus {
-    border-color: #007BFF; /* Couleur bleue au focus */
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+/* Style pour le panelGrid */
+.ui-panelgrid-blank {
+    margin-bottom: 15px;
 }
 
-/* Style du bouton */
-.button {
-    width: 100%; /* Largeur totale */
-    padding: 12px;
-    margin: 10px 0; /* Espacement avec les autres éléments */
-    font-size: 16px;
+/* Style pour les labels */
+.ui-outputlabel {
     font-weight: bold;
-    color: white; /* Texte blanc */
-    background-color: #007BFF; /* Bleu standard */
-    border: none; /* Pas de bordure */
-    border-radius: 5px; /* Coins arrondis */
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    color: #555;
 }
 
-/* Effet au survol sur le bouton */
+/* Style pour les champs de sélection et d'entrée */
+.search-form .ui-selectonemenu, 
+.search-form .ui-inputtext {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Style pour le bouton */
+.button {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
 .button:hover {
-    background-color: #0056b3; /* Bleu plus foncé */
+    background-color: #45a049;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .search-form {
+        width: 90%;
+    }
+    
+    .form-container {
+        padding: 20px;
+    }
 }

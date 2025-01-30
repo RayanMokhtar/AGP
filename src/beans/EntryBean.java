@@ -1,8 +1,7 @@
 package beans;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.RequestScoped;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,34 +17,37 @@ import dao.SiteDAO;
 import persistence.HotelPersistence;
 import persistence.SitePersistence;
 import business.tools.OfferBuilder;
+import business.tools.SearchCriteria;
 import business.tools.SiteSelector;
 
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class EntryBean implements Serializable{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String searchType;
 	private String hotelName;
 	private String island;
 	private Double hotelPrice;
 	private String siteDescription;
-	private Double sitePrice;
 
 	// Nouveaux champs basés sur UserCriteria
-	private Integer nbDays;
+	private Integer nbDays = 1;
 	private Integer minPrice;
 	private Integer maxPrice;
 	private String intensity;
 	private Integer comfort = 1;
 	private String descriptionSite;
-	private Integer visitedPlacesPerDay;
+	private Integer visitedPlacesPerDay = 1;
 	private Integer hotelStars;
 	private String typeSite;
 	
+	private String critere;
+	private String valeur;
+
+
 	
 	private List<Offer> results = new ArrayList<>();
 
@@ -53,13 +55,22 @@ public class EntryBean implements Serializable{
         return results;
     }
 
-	public String getSearchType() {
-		return searchType;
+	public String getCritere() {
+		return critere;
 	}
 
-	public void setSearchType(String searchType) {
-		this.searchType = searchType;
+	public void setCritere(String critere) {
+		this.critere = critere;
 	}
+
+	public String getValeur() {
+		return valeur;
+	}
+
+	public void setValeur(String valeur) {
+		this.valeur = valeur;
+	}
+
 
 	public String getIsland() {
 		return island;
@@ -94,15 +105,6 @@ public class EntryBean implements Serializable{
 		this.siteDescription = siteDescription;
 	}
 
-
-	public Double getSitePrice() {
-		return sitePrice;
-	}
-
-	public void setSitePrice(Double sitePrice) {
-		this.sitePrice = sitePrice;
-	}
-
 	// Getters et setters pour les nouveaux champs
 	public Integer getNbDays() {
 		return nbDays;
@@ -114,7 +116,6 @@ public class EntryBean implements Serializable{
 	}
 
 	public Integer getMinPrice() {
-		System.out.println("dasn getminPrice");
 		return minPrice;
 	}
 
@@ -178,14 +179,21 @@ public class EntryBean implements Serializable{
 		this.hotelStars = hotelStars;
 	}
 
-	public void search() {
-		System.out.println("nbr de jours" + nbDays);
+	public String search() {
+
+ // Appel à SearchService
+        // Création d'une instance de SearchCriteria
+        SearchCriteria searchCriteria = new SearchCriteria();
+        searchCriteria.getSearchType(critere, valeur);
+		
+       
+
+	return "null";
 	}
 
 	// Méthode de soumission
 	public String submit() {
-
-		System.out.println("nbr de jours");
+		//System.out.println("nbr de jours");
 		// System.out.println("Prix minimum: " + minPrice);
 		// System.out.println("Prix max: " + maxPrice);
 		// System.out.println("comfort: " + comfort);
@@ -244,29 +252,5 @@ public class EntryBean implements Serializable{
 		return "null";
 	}
 	
-	 // Méthode pour soumettre les critères de recherche des hôtels
-    public String searchHotels() {
-        System.out.println("Recherche d'Hôtels:");
-        System.out.println("Île: " + island);
-        System.out.println("Nom de l'hôtel: " + hotelName);
-        System.out.println("Prix minimum: " + minPrice);
-        System.out.println("Prix maximum: " + maxPrice);
-        System.out.println("Nombre d'étoiles: " + hotelStars);
-
-        return "null"; // Reste sur la même page après la recherche
-    }
-
-	 // Méthode pour soumettre les critères de recherche des hôtels
-      public String searchSites() {
-        System.out.println("Recherche de Sites:");
-        System.out.println("Île: " + island);
-        System.out.println("Mot-clé du site: " + siteDescription);
-        System.out.println("Type de site: " + typeSite);
-        System.out.println("Prix minimum: " + minPrice);
-        System.out.println("Prix maximum: " + maxPrice);
-
-
-        return "null"; // Reste sur la même page après la recherche
-    }
 	
 }
