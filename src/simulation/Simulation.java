@@ -7,22 +7,27 @@ import business.tools.Intensity;
 import business.tools.TypeSite;
 import business.tools.UserCriteria;
 import business.tools.OfferBuilder;
-import business.tools.TestOfferBuilder;
+import dao.HotelDAO;
+import dao.SiteDAO;
+import business.tools.HotelSelector;
+import persistence.HotelPersistence;
+import persistence.SitePersistence;
+import business.tools.SiteSelector;
 
 public class Simulation {
 
 	public static void main(String[] args) {
 		// Création d'une entrée de simulation avec les critères de l'utilisateur
         SimulationEntry entry = new SimulationEntry(
-            7, // nbDays
-            200, // minPrice
-            1000, // maxPrice
+            5, // nbDays
+            20, // minPrice
+            20000, // maxPrice
             Intensity.RELAX, // intensity
             4, // confort
-            "Beautiful beach destination", // descriptionSite
+            "Banane", // descriptionSite
             2, // visitedPlacesPerDay
             TypeSite.HOBBIES, // typeSite
-            4 // hotelStars
+            2 // hotelStars
         );
 
         // Conversion des données de SimulationEntry en UserCriteria
@@ -38,10 +43,19 @@ public class Simulation {
         criterias.setHotelStars(entry.getHotelStars());
 
         // Construction des offres
-        TestOfferBuilder offerBuilder = new TestOfferBuilder();
-        List<Offer> offers = offerBuilder.generateOffer();
+        
+        HotelDAO h = new HotelPersistence();
+        SiteDAO s = new SitePersistence();
+        HotelSelector hotelselector = new HotelSelector();
+        hotelselector.setHotelDAO(h);
+        
+        SiteSelector siteselector = new SiteSelector();
+        siteselector.setSiteDAO(s);
+        OfferBuilder offerBuilder = new OfferBuilder();
+        offerBuilder.setHotelSelector(hotelselector);
+        offerBuilder.setSiteSelector(siteselector);
+        List<Offer> offers = offerBuilder.generateOffers(criterias, 5);
 
-        // Affichage des offres
         SimulationUtils.displayOffers(offers);
     
 

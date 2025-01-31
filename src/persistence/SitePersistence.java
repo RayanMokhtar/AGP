@@ -9,20 +9,20 @@ import business.Site;
 import business.tools.TypeSite;
 import business.tools.UserCriteria;
 import dao.SiteDAO;
-import persistence.extendeddb.ExtendedDatabaseAPI;
-import persistence.extendeddb.MixedResult;
-import persistence.extendeddb.MixedResults;
+import persistence.extendeddb.BdeApi;
+import persistence.extendeddb.CombinedResult;
+import persistence.extendeddb.CombinedResults;
 
 public class SitePersistence implements SiteDAO {
 
     public SitePersistence() {
-        // Constructeur privé pour empêcher l'instanciation
     }
 
-    private static MixedResults getSitesResults(String whereClause, String withClause) {
-        MixedResults mixedResults = null;
-        ExtendedDatabaseAPI database = Database.getConnection();
+    private static CombinedResults getSitesResults(String whereClause, String withClause) {
+        CombinedResults mixedResults = null;
+        BdeApi database = Database.getConnection();
         String query = "SELECT id, name, type, duration, entryPrice, latitude, longitude, idIsland FROM Site";
+       
 
         if (!whereClause.isEmpty()) {
             query += " WHERE " + whereClause;
@@ -34,14 +34,14 @@ public class SitePersistence implements SiteDAO {
         System.out.println(query);
 
         try {
-            mixedResults = database.mixedQuery(query);
+            mixedResults = database.combinedQuery(query);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return mixedResults;
     }
 
-    private static Site getSiteObject(MixedResult tuple) {
+    private static Site getSiteObject(CombinedResult tuple) {
         try {
             int id = Integer.parseInt(tuple.getAttribute("id"));
             TypeSite type = TypeSite.fromString(tuple.getAttribute("type"));
@@ -64,8 +64,8 @@ public class SitePersistence implements SiteDAO {
 
     public static List<Site> getSites(String keywords) {
         List<Site> sites = new LinkedList<>();
-        MixedResults tuples = getSitesResults("", keywords);
-        for (MixedResult tuple : tuples) {
+        CombinedResults tuples = getSitesResults("", keywords);
+        for (CombinedResult tuple : tuples) {
             Site s = getSiteObject(tuple);
             if (s != null) {
                 sites.add(s);
@@ -76,8 +76,8 @@ public class SitePersistence implements SiteDAO {
 
     public static List<Site> getActivitySites(String keywords) {
         List<Site> sites = new LinkedList<>();
-        MixedResults tuples = getSitesResults("type = 'activity'", keywords);
-        for (MixedResult tuple : tuples) {
+        CombinedResults tuples = getSitesResults("type = 'activity'", keywords);
+        for (CombinedResult tuple : tuples) {
             Site s = getSiteObject(tuple);
             if (s != null) {
                 sites.add(s);
@@ -88,8 +88,8 @@ public class SitePersistence implements SiteDAO {
 
     public static List<Site> getHistoricSites(String keywords) {
         List<Site> sites = new LinkedList<>();
-        MixedResults tuples = getSitesResults("type = 'historic'", keywords);
-        for (MixedResult tuple : tuples) {
+        CombinedResults tuples = getSitesResults("type = 'historic'", keywords);
+        for (CombinedResult tuple : tuples) {
             Site s = getSiteObject(tuple);
             if (s != null) {
                 sites.add(s);
@@ -100,7 +100,7 @@ public class SitePersistence implements SiteDAO {
 
     @Override
     public Site findById(int id) {
-        MixedResults tuples = getSitesResults("id = " + id, "");
+        CombinedResults tuples = getSitesResults("id = " + id, "");
         if (tuples != null && !tuples.isEmpty()) {
             return getSiteObject(tuples.get(0));
         }
@@ -110,8 +110,8 @@ public class SitePersistence implements SiteDAO {
     @Override
     public List<Site> findByName(String name) {
         List<Site> sites = new LinkedList<>();
-        MixedResults tuples = getSitesResults("name = '" + name + "'", "");
-        for (MixedResult tuple : tuples) {
+        CombinedResults tuples = getSitesResults("name = '" + name + "'", "");
+        for (CombinedResult tuple : tuples) {
             Site s = getSiteObject(tuple);
             if (s != null) {
                 sites.add(s);
@@ -123,8 +123,8 @@ public class SitePersistence implements SiteDAO {
     @Override
     public List<Site> findByType(String type) {
         List<Site> sites = new LinkedList<>();
-        MixedResults tuples = getSitesResults("type = '" + type + "'", "");
-        for (MixedResult tuple : tuples) {
+        CombinedResults tuples = getSitesResults("type = '" + type + "'", "");
+        for (CombinedResult tuple : tuples) {
             Site s = getSiteObject(tuple);
             if (s != null) {
                 sites.add(s);
@@ -136,8 +136,8 @@ public class SitePersistence implements SiteDAO {
     @Override
     public List<Site> findByDescription(String description) {
         List<Site> sites = new LinkedList<>();
-        MixedResults tuples = getSitesResults("", description);
-        for (MixedResult tuple : tuples) {
+        CombinedResults tuples = getSitesResults("", description);
+        for (CombinedResult tuple : tuples) {
             Site s = getSiteObject(tuple);
             if (s != null) {
                 sites.add(s);
@@ -152,8 +152,8 @@ public class SitePersistence implements SiteDAO {
         if (island == null) {
             return sites;
         }
-        MixedResults tuples = getSitesResults("idIsland = " + island.getId(), "");
-        for (MixedResult tuple : tuples) {
+        CombinedResults tuples = getSitesResults("idIsland = " + island.getId(), "");
+        for (CombinedResult tuple : tuples) {
             Site s = getSiteObject(tuple);
             if (s != null) {
                 sites.add(s);
@@ -164,15 +164,7 @@ public class SitePersistence implements SiteDAO {
 
     @Override
     public List<Site> findAll() {
-        List<Site> sites = new LinkedList<>();
-        MixedResults tuples = getSitesResults("", "");
-        for (MixedResult tuple : tuples) {
-            Site s = getSiteObject(tuple);
-            if (s != null) {
-                sites.add(s);
-            }
-        }
-        return sites;
+        return getSites("");
     }
 
     @Override
@@ -183,8 +175,8 @@ public class SitePersistence implements SiteDAO {
         }
         String where = "type = '" + criteria.getTypesite() + "'";
         String with = criteria.getDescriptionSite();
-        MixedResults tuples = getSitesResults(where, with);
-        for (MixedResult tuple : tuples) {
+        CombinedResults tuples = getSitesResults(where, with);
+        for (CombinedResult tuple : tuples) {
             Site s = getSiteObject(tuple);
             if (s != null) {
                 sites.add(s);

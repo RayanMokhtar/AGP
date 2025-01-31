@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 Teahupoo est un spot de surf mondialement connu, célèbre pour ses vagues énormes et ses compétitions internationales. Ce lieu iconique attire des surfeurs professionnels du monde entier, mais offre aussi une atmosphère tranquille pour les visiteurs en quête d’authenticité polynésienne.
+=======
+il s'agit de COO projet AGP pour dÃ©mo Lucene Supposons que c'est un test
+>>>>>>> Test

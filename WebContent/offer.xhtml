@@ -23,6 +23,7 @@
     <h:form>
             <!-- Nombre de jours -->
             <p:outputLabel for="nbDays" value="Nombre de jours :" />
+<<<<<<< HEAD
             <p:inputText id="nbDays" value="#{entryBean.nbDays}" type="number" placeholder="Entrez le nombre de jours"/>
            
            <!-- Prix minimum -->
@@ -37,16 +38,43 @@
             <!-- Confort -->
         
             <p:outputLabel for="comfort" value="Confort :" />
+=======
+            <p:inputText id="nbDays" value="#{entryBean.nbDays}" type="number" placeholder="Entrez le nombre de jours">
+           <f:validateLongRange minimum="1" maximum="10"/>
+           </p:inputText>
+           <p:message for="nbDays" style="color:red"/>
+           <!-- Prix minimum -->
+        
+            <p:outputLabel for="minPrice" value="Prix minimum :" />
+            <p:inputNumber id="minPrice" value="#{entryBean.minPrice}" placeholder ="Entrez le prix min" />
+          
+          <!-- Prix maximum -->
+            <p:outputLabel for="maxPrice" value="Prix maximum :" />
+            <p:inputNumber id="maxPrice" value="#{entryBean.maxPrice}" placeholder ="Entrez le prix max"/>
+            
+            <!-- Confort -->
+        
+            <p:outputLabel for="comfort" value="Confort (nombre d'heures maximales toléré dans les transports):" />
+>>>>>>> Test
             <p:inputNumber id="comfort" value="#{entryBean.comfort}" />
             
             <!-- Intensité -->
             
+<<<<<<< HEAD
                 <p:outputLabel for="intensity" value="Intensité (nombre d'excursions) :" />
                 <p:selectOneMenu id="intensity" value="#{entryBean.intensity}">
         
                     <f:selectItem itemValue="relax" itemLabel="Relax" />
                     <f:selectItem itemValue="modere" itemLabel="Modéré" />
                     <f:selectItem itemValue="intense" itemLabel="Intense" />
+=======
+                <p:outputLabel for="intensity" value="Intensité (nombre d'excursions durant le séjour ) :" />
+                <p:selectOneMenu id="intensity" value="#{entryBean.intensity}">
+        
+                    <f:selectItem itemValue="relax" itemLabel="Relax (1 jour sur 3)" />
+                    <f:selectItem itemValue="modere" itemLabel="Modéré (1 jour sur 2)" />
+                    <f:selectItem itemValue="intense" itemLabel="Intense(tous les jours)" />
+>>>>>>> Test
                 </p:selectOneMenu>
            
 
@@ -57,18 +85,31 @@
            
 
             <!-- Lieux visités par jour -->
+<<<<<<< HEAD
             
                 <p:outputLabel for="visitedPlacesPerDay" value="Lieux à visiter par jour :" />
                 <p:inputText id="visitedPlacesPerDay" value="#{entryBean.visitedPlacesPerDay}" type="number" placeholder="Entrez le nombre de sites a visite pendant votre séjour" />
          
+=======
+            <p:outputLabel for="visitedPlacesPerDay" value="Nombre de sites a visité par jour :" />
+                <p:inputText id="visitedPlacesPerDay" value="#{entryBean.visitedPlacesPerDay}" type="number">
+    <f:validateLongRange minimum="0" maximum="3"/>
+</p:inputText>
+<p:message for="visitedPlacesPerDay" style="color:red"/>
+>>>>>>> Test
 
             <!-- Type de site -->
 		
 			<p:outputLabel for="typeSite" value="Type de site :" />
 			<p:selectOneMenu id="typeSite" value="#{entryBean.typeSite}">
 	
+<<<<<<< HEAD
 				<f:selectItem itemValue="Historic" itemLabel="Loisir" />
 				<f:selectItem itemValue="Hobbies" itemLabel="Historique" />
+=======
+				<f:selectItem itemValue="Hobbies" itemLabel="Loisir" />
+				<f:selectItem itemValue="Historic" itemLabel="Historique" />
+>>>>>>> Test
 			</p:selectOneMenu>
 			
 
@@ -88,6 +129,7 @@
            
             <h:commandButton class="button" value="Soumettre" action="#{entryBean.submit}" />
         </h:form>
+<<<<<<< HEAD
         
 
    
@@ -124,3 +166,59 @@
 </h:body>
 
 </html>
+=======
+
+
+        <h:form>
+            <ui:repeat value="#{entryBean.results}" var="offer" varStatus="status">
+                <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
+                    <h2>Offre #{status.index + 1}</h2>
+                    <h3>Nombre de jours: #{offer.nbDays}</h3>
+        
+                    <p><strong>Excursions :</strong></p>
+                    <ui:repeat value="#{offer.excursions}" var="excursion" varStatus="excursionStatus">
+                        <div style="margin-left: 15px; padding: 5px;">
+                            <h4>Excursion Jour #{excursionStatus.index + 1}</h4>
+                            <p>- Départ de l'hôtel : #{excursion.hotelDeparture.name}</p>
+                            <p>- Coût de l'excursion:
+    <h:outputText value="#{excursion.excursionCost}">
+        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+    </h:outputText> €
+</p>
+                            <p>- Lieux visités :</p>
+                            <ui:fragment rendered="#{excursion.placesVisited.isEmpty()}">
+                                <p>Pas de lieu à visiter aujourd'hui , profitez de la plage</p>
+                            </ui:fragment>
+                            <ui:fragment rendered="#{not excursion.placesVisited.isEmpty()}">
+                                <ul>
+                                    <ui:repeat value="#{excursion.placesVisited}" var="visit">
+            <li>
+                #{visit.site.name} (Transport: #{visit.transport.transportType}, 
+                Coût: 
+                <h:outputText value="#{visit.costVisit}">
+                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                </h:outputText> €, 
+                Durée: 
+                <h:outputText value="#{visit.durationVisit}">
+                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                </h:outputText> heures)
+            </li>
+        </ui:repeat>
+                                </ul>
+                            </ui:fragment>
+                        </div>
+                    </ui:repeat>
+        
+                    <p><strong>Prix final :</strong> 
+    <h:outputText value="#{offer.finalPrice}">
+        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+    </h:outputText> €
+</p>
+                </div>
+            </ui:repeat>
+        </h:form>
+
+</h:body>
+
+</html>
+>>>>>>> Test

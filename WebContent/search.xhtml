@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -88,4 +89,43 @@
         </h:form>
     </div>
 </h:body>
+=======
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+    <link rel="stylesheet" type="text/css" href="styles1.css" />
+    <title>Recherche de voyages</title>
+    <link rel="icon" type="image/png" href="ile.png" />
+</h:head>
+<h:body>
+    <div class="background"></div>
+
+    <h1>Recherche de voyages</h1>
+    <div class="form-container">
+        <h:form class="search-form">
+            <!-- Formulaire de recherche -->
+
+            <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+                <p:outputLabel for="critere" value="Critère de recherche :" />
+                <p:selectOneMenu id="critere" value="#{entryBean.critere}">
+                    <f:selectItem itemValue="hotelName" itemLabel="Nom de l'hôtel" />
+                    <f:selectItem itemValue="hoteWithIslandName" itemLabel="Hotel avec nom d'île" />
+                    <f:selectItem itemValue="hotelStars" itemLabel="Nombre d'étoiles de l'hôtel" />
+                    <f:selectItem itemValue="siteType" itemLabel="Type de site" />
+                    <f:selectItem itemValue="siteDescription" itemLabel="Description du site" />
+                    <f:selectItem itemValue="siteWithIslandName" itemLabel="Site avec Nom d'île" />
+                </p:selectOneMenu>
+
+                <p:outputLabel for="valeur" value="Valeur :" />
+                <p:inputText id="valeur" value="#{entryBean.valeur}" placeholder="Entrez une valeur" />
+            </p:panelGrid>
+            <p:commandButton value="Rechercher" action="#{entryBean.search}" styleClass="button" />
+        </h:form>
+    </div>
+
+</h:body>
+
+>>>>>>> Test
 </html>
