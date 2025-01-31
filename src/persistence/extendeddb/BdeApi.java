@@ -1,6 +1,7 @@
 package persistence.extendeddb;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -43,6 +44,11 @@ public class BdeApi {
         }
         return description;
     }
+
+    public void createDescriptionFile(int siteId, String content) throws IOException {
+    Path filePath = Paths.get("C:\\Users\\darkf\\Desktop\\java_workspace\\AGP\\AGP_DB\\Description", siteId + ".txt");
+    Files.write(filePath, content.getBytes(StandardCharsets.UTF_8));
+}
 
   
     public TextualResults textualQuery(String query) throws IOException, ParseException {

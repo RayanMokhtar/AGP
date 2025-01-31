@@ -18,6 +18,7 @@ import persistence.extendeddb.lucene.Indexer;
 import persistence.extendeddb.lucene.TextualResult;
 import persistence.extendeddb.lucene.TextualResults;
 
+
 /**
  *
  */
@@ -65,28 +66,24 @@ public class DemoBDe {
 		try {
 			// établir la connexion à l'API
 			BdeApi database = new BdeApi(sqlConfiguration, textualConfiguration);
+			// créer une descrition pour une clée donnée
+			database.createDescriptionFile(30, "Anse Lazio, située sur l'île de Praslin aux Seychelles, est souvent considérée comme l'une des plus belles plages du monde. Avec son sable fin, ses eaux cristallines et ses rochers granitiques, c'est un lieu de rêve pour les voyageurs.");
 			
 			// 1. Simple query
 			System.out.println("simple query : \n");
 			SQLResults sqlResults = database.simpleQuery("SELECT name, type FROM Site WHERE type = 'historic'");
 			
-			// Display the results with a for loop
-			System.out.println("Test de requete simple :\n");
-			for (SQLResult sqlResult : sqlResults) {
-				System.out.println("Sql result est : "+sqlResult);
-				System.out.println(sqlResult.getAttribute("name"));
-			}
-			
+			System.out.println("Test de requete simple :\n");			
 			// Display the results with a while loop
 			SQLResult sqlResult;
 			
-			// sqlResults.init();
 			
 			while (sqlResults.hasNext()) {
 				sqlResult = sqlResults.next();
 				
 				System.out.println(sqlResult.getAttribute("name"));
 			}
+
 			
 			
 			// 2. Textual query
@@ -94,12 +91,12 @@ public class DemoBDe {
 			System.out.println("textual query : \n");
 			TextualResults textualResults = database.textualQuery("musée");
 			
-			// Display the results with a for loop
+			/*// Display the results with a for loop
 			for (TextualResult textualResult : textualResults) {
 				System.out.println("textual query : \n");
 				System.out.println("text result est : "+textualResult);
 
-			}
+			}*/
 			
 			// Display the results with a while loop
 			TextualResult textualResult;
@@ -118,23 +115,24 @@ public class DemoBDe {
 			System.out.println("résultat des deux typologies de requetes :\n\n\n\n");
 			// 3. Mixed query
 			// ============================
-			CombinedResults mixedResults = database.combinedQuery("SELECT id, name, type, duration, entryPrice, latitude, longitude, idIsland FROM Site WITH musée");
-			
-			// Display the results with a for loop
-			for (CombinedResult mixedResult : mixedResults) {
+			CombinedResults combinedResults = database.combinedQuery("SELECT id, name, type, duration, entryPrice, latitude, longitude, idIsland FROM Site WITH musée");
+			CombinedResult combinedResult;
+			// Display the results with while loop
+			while (combinedResults.hasNext()) {
+				combinedResult = combinedResults.next();
 				System.out.println("========= "
-								   + mixedResult.getAttribute("name")
+								   + combinedResult.getAttribute("name")
 								   + " ========="
 				);
 				
 				System.out.println("[Type] "
-								   + mixedResult.getAttribute("type")
+								   + combinedResult.getAttribute("type")
 								   + " [Score] "
-								   + mixedResult.getScore()
+								   + combinedResult.getScore()
 				);
 				
 				System.out.println("[Description] "
-								   + mixedResult.getContent()
+								   + combinedResult.getContent()
 				);
 			}
 			
