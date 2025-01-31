@@ -4,14 +4,12 @@
 package tests;
 
 import java.io.IOException;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import business.Island;
-import persistence.extendeddb.ExtendedDatabaseAPI;
-import persistence.extendeddb.MixedResult;
-import persistence.extendeddb.MixedResults;
+import persistence.extendeddb.BdeApi;
+import persistence.extendeddb.CombinedResult;
+import persistence.extendeddb.CombinedResults;
 import persistence.extendeddb.SQLConfiguration;
 import persistence.extendeddb.TextualConfiguration;
 import persistence.extendeddb.jdbc.SQLResult;
@@ -19,8 +17,7 @@ import persistence.extendeddb.jdbc.SQLResults;
 import persistence.extendeddb.lucene.Indexer;
 import persistence.extendeddb.lucene.TextualResult;
 import persistence.extendeddb.lucene.TextualResults;
-import dao.IslandDAO;
-import persistence.*;
+
 /**
  *
  */
@@ -32,10 +29,6 @@ public class DemoBDe {
 	public static void main(String[] args) {
 		Path sourcePath = Paths.get("AGP_DB", "Description");
 		Path indexPath = Paths.get("AGP_DB", "Index");
-		/*IslandDAO islandDAO = new IslandPersistence();
-		Island island = islandDAO.findByName("Dominica");
-		System.out.println("ID: " + island.getId()+"\n");    test debug*/
-		
 		
 		try {
 			// Create an index and add documents
@@ -70,17 +63,17 @@ public class DemoBDe {
 		);
 		
 		try {
-			// Establish the connection
-			ExtendedDatabaseAPI database = new ExtendedDatabaseAPI(sqlConfiguration, textualConfiguration);
+			// établir la connexion à l'API
+			BdeApi database = new BdeApi(sqlConfiguration, textualConfiguration);
 			
 			// 1. Simple query
-			// ============================
 			System.out.println("simple query : \n");
 			SQLResults sqlResults = database.simpleQuery("SELECT name, type FROM Site WHERE type = 'historic'");
 			
 			// Display the results with a for loop
 			System.out.println("Test de requete simple :\n");
 			for (SQLResult sqlResult : sqlResults) {
+				System.out.println("Sql result est : "+sqlResult);
 				System.out.println(sqlResult.getAttribute("name"));
 			}
 			
@@ -103,10 +96,9 @@ public class DemoBDe {
 			
 			// Display the results with a for loop
 			for (TextualResult textualResult : textualResults) {
-				System.out.println("[id] " + textualResult.getId()
-								   + " [score] " + textualResult.getScore()
-								   + " [content] " + textualResult.getContent()
-				);
+				System.out.println("textual query : \n");
+				System.out.println("text result est : "+textualResult);
+
 			}
 			
 			// Display the results with a while loop
@@ -123,13 +115,13 @@ public class DemoBDe {
 			
 			
 			
-			System.out.println("Mixed results :\n");
+			System.out.println("résultat des deux typologies de requetes :\n\n\n\n");
 			// 3. Mixed query
 			// ============================
-			MixedResults mixedResults = database.mixedQuery("SELECT id, name, type, duration, entryPrice, latitude, longitude, idIsland FROM Site WITH musée");
+			CombinedResults mixedResults = database.combinedQuery("SELECT id, name, type, duration, entryPrice, latitude, longitude, idIsland FROM Site WITH musée");
 			
 			// Display the results with a for loop
-			for (MixedResult mixedResult : mixedResults) {
+			for (CombinedResult mixedResult : mixedResults) {
 				System.out.println("========= "
 								   + mixedResult.getAttribute("name")
 								   + " ========="

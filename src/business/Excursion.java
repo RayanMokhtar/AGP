@@ -61,4 +61,10 @@ public class Excursion {
     public void addToExcursionCost(double cost) {
         this.excursionCost += cost;
     }
+
+	@Override
+	public String toString() {
+		return "Excursion [hotelDeparture=" + hotelDeparture + ", hotelArrival=" + hotelArrival + ", placesVisited="
+				+ placesVisited + ", durationTransport=" + durationTransport + ", excursionCost=" + excursionCost + "]";
+	}
 }

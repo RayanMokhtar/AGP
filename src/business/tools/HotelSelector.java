@@ -10,7 +10,8 @@ public class HotelSelector {
 
     // Attribut injecté par Spring (setter injection)
     private HotelDAO hotelDAO;
-
+    
+    
     // Setter appelé par Spring pour l'injection
     public void setHotelDAO(HotelDAO hotelDAO) {
         this.hotelDAO = hotelDAO;
@@ -25,7 +26,12 @@ public class HotelSelector {
     }
     
     
-    public List<Hotel> getHotelsByIsland(Island island){
+    @Override
+	public String toString() {
+		return "HotelSelector [hotelDAO=" + hotelDAO + "]";
+	}
+
+	public List<Hotel> getHotelsByIsland(Island island){
     	return hotelDAO.findByIsland(island);
     }
     /**

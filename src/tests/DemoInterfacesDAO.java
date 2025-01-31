@@ -31,6 +31,8 @@ public class DemoInterfacesDAO {
 		// Hotels
 		List<Hotel> hotels = hotelselector.getAllHotels();
 		
+		
+		
 		for (Hotel hotel : hotels) {
 			System.out.println("========= Hotel : "
 							   + hotel.getName()
@@ -74,4 +76,4 @@ public class DemoInterfacesDAO {
 			);
 		}
 	}
-}
+	}

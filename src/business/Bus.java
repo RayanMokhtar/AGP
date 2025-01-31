@@ -14,4 +14,8 @@ public class Bus extends Transport {
     public String getTransportType() {
         return "BUS";
     }
+	@Override
+	public String toString() {
+		return "Bus [speedPerKm=" + speedPerKm + ", pricePerKm=" + pricePerKm + "]";
+	}
 }

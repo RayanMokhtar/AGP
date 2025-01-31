@@ -1,10 +1,9 @@
 package dao;
 
-import java.util.List;
-
 import business.Hotel;
 import business.Island;
 import business.tools.UserCriteria;
+import java.util.List;
  
 
 public interface HotelDAO {

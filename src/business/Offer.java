@@ -61,4 +61,10 @@ public class Offer {
     public List<Excursion> getExcursions() {
         return excursions;
     }
+
+	@Override
+	public String toString() {
+		return "Offer [hotels=" + hotels + ", excursions=" + excursions + ", finalPrice=" + finalPrice + ", nbDays="
+				+ nbDays + "]";
+	}
 }

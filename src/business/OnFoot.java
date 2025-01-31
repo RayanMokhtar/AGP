@@ -8,4 +8,8 @@ public class OnFoot extends Transport {
     public String getTransportType() {
         return "ON_FOOT";
     }
+	@Override
+	public String toString() {
+		return "OnFoot [speedPerKm=" + speedPerKm + ", pricePerKm=" + pricePerKm + "]";
+	}
 }

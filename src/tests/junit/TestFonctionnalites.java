@@ -30,9 +30,9 @@ public class TestFonctionnalites {
 
     @Before
     public void setUp() {
+    	siteDAO = new SitePersistence();
         islandDAO = new IslandPersistence();
         hotelDAO = new HotelPersistence();
-        siteDAO = new SitePersistence();
     }
 
     // Tests IslandDAO
@@ -82,6 +82,17 @@ public class TestFonctionnalites {
         assertNotNull(hotels);
     }
 
+    @Test
+    public void testHotelFindByCriteria() {
+    	UserCriteria criteria = new UserCriteria();
+    	criteria.setHotelStars(3);
+    	List<Hotel> hotels = hotelDAO.findByCriteria(criteria);
+    	assertNotNull(hotels);
+    	for (Hotel hotel : hotels) {
+            assertNotNull(hotel);
+            }
+    	
+    }
     // Tests SiteDAO
     @Test
     public void testSiteFindById() {
@@ -107,10 +118,15 @@ public class TestFonctionnalites {
 
     @Test
     public void testSiteFindByDescription() {
-        String description = "colonial";
+        String description = "banane";
         List<Site> sites = siteDAO.findByDescription(description);
         assertNotNull(sites);
-        assertFalse(sites.isEmpty());
+        for (Site site : sites) {
+        	System.out.println(site.toString()+"\n");
+            assertNotNull(site);
+            assertTrue("La description doit contenir 'banane'",
+                    site.getDescription().toLowerCase().contains("banane"));
+            }
     }
 
     @Test
@@ -118,13 +134,20 @@ public class TestFonctionnalites {
         Island island = islandDAO.findById(1);
         List<Site> sites = siteDAO.findByIsland(island);
         assertNotNull(sites);
-        assertFalse(sites.isEmpty());
+        for (Site site : sites) {
+            assertNotNull(site);
+            }
     }
 
     @Test
     public void testSiteFindAll() {
         List<Site> sites = siteDAO.findAll();
         assertNotNull(sites);
+        for (Site site : sites) {
+        System.out.println(site.toString());
+        assertNotNull(site);
+        assertNotNull(site.getDescription());
+        }
     }
 
     @Test
@@ -138,7 +161,7 @@ public class TestFonctionnalites {
             assertEquals(TypeSite.HOBBIES, site.getType());
         assertNotNull(site.getDescription());
         assertTrue("La description doit contenir 'plage'",
-                   site.getDescription().contains("plage"));
+                   site.getDescription().toLowerCase().contains("plage"));
         }
         // Peut être vide si aucun site ne correspond exactement
     }

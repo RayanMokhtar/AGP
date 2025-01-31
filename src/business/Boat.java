@@ -15,4 +15,8 @@ public class Boat extends Transport {
     public String getTransportType() {
         return "BOAT";
     }
+	@Override
+	public String toString() {
+		return "Boat [speedPerKm=" + speedPerKm + ", pricePerKm=" + pricePerKm + "]";
+	}
 }

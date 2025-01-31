@@ -28,6 +28,8 @@ public class OfferBuilder {
 	 private HotelSelector hotelSelector;
 	 private SiteSelector siteSelector;
 
+     private List<Hotel> filteredHotels;
+     private List<Site> filteredSites;
 	    // Setters pour l'injection
 	    public void setHotelSelector(HotelSelector hotelSelector) {
 	        this.hotelSelector = hotelSelector;
@@ -38,6 +40,47 @@ public class OfferBuilder {
 	        this.siteSelector = siteSelector;
 	        System.out.println("SiteSelector injecté dans OfferBuilder");
 	    }
+	    
+	 
+	    
+	    public HotelSelector getHotelSelector() {
+			return hotelSelector;
+		}
+
+		public SiteSelector getSiteSelector() {
+			return siteSelector;
+		}
+
+		public List<Hotel> getFilteredHotels() {
+			return filteredHotels;
+		}
+
+		public List<Site> getFilteredSites() {
+			return filteredSites;
+		}
+
+		public void setFilteredHotels(List<Hotel> filteredHotels) {
+			this.filteredHotels = filteredHotels;
+		}
+
+		public void setFilteredSites(List<Site> filteredSites) {
+			this.filteredSites = filteredSites;
+		}
+		
+
+		public void initialize(UserCriteria criteria) {
+	        // Récupérer et filtrer les hôtels et sites en fonction des critères
+	        this.filteredHotels = hotelSelector.getHotelsByCriteria(criteria);
+	        this.filteredSites = siteSelector.getSitesByCriteria(criteria);
+
+	        System.out.println("Hôtels filtrés: " + filteredHotels.size());
+	        System.out.println("Sites filtrés: " + filteredSites.size());
+	        System.out.println("liste des Sites :\n");
+	        for (Site site:filteredSites) {
+	        	System.out.println(site);
+	        }
+	        }
+	    
     // ---------------------------------------------------------------------------
     //                1) Méthode pour construire une seule offre
     // ---------------------------------------------------------------------------
@@ -58,12 +101,16 @@ public class OfferBuilder {
     	
     	
         // --- 1) Récupérer la liste d'hôtels et de sites, filtrés par les critères ---
-        List<Hotel> hotels = hotelSelector.getHotelsByCriteria(criteria);
-        List<Site> sites = siteSelector.getSitesByCriteria(criteria);
-
+        /*List<Hotel> hotels = hotelSelector.getHotelsByCriteria(criteria);
+        System.out.println("hotels dans builder : "+hotels.get(0));
+        List<Site> sites = siteSelector.getSitesByCriteria(criteria);*/
+    	
+    	List<Hotel> hotels = this.filteredHotels;
+        List<Site> sites = new ArrayList<>(this.filteredSites); 
+    	
         // Vérif de base
         if (hotels.isEmpty() || sites.isEmpty()) {
-            throw new InsufficientBudgetException("Aucun hôtel ou site disponible selon les critères !");
+            throw new InsufficientBudgetException("une des listes est vide");
         }
 
         // --- 2) Vérifier si l'hôtel le moins cher dépasse le budget total (cas extrême) ---
@@ -192,7 +239,8 @@ public class OfferBuilder {
                 // On doit calculer et ajouter le coût du trajet vers cet hôtel
                 double distToHotel = distanceBetween(currentPosition, arrivalHotel.getCoordinates());
                 Transport arrTransport = TransportFactory.getTransport(currentIsland, arrivalHotel.getIsland(), remainingBudget);
-                double arrTime = distToHotel / arrTransport.getSpeedPerKm();
+                @SuppressWarnings("unused")
+				double arrTime = distToHotel / arrTransport.getSpeedPerKm();
                 double arrCost = distToHotel * arrTransport.getPricePerKm();
 
                 dailyCost += arrCost; 
@@ -211,6 +259,8 @@ public class OfferBuilder {
 
         // --- 8) On met le total calculé dans l'Offer ---
         offer.addToFinalPrice(totalOfferCost);
+        //ajout dernier cout retour à l'hotel avant la fin du séjour :)
+        offer.addToFinalPrice(currentHotel.getPricePerDay());
 
         return offer;
     }
@@ -225,28 +275,32 @@ public class OfferBuilder {
         List<Offer> offers = new ArrayList<>();
         
         // Récupération et filtrage des hôtels selon les critères
-        List<Hotel> hotels = hotelSelector.getHotelsByCriteria(criteria);
-        
+        initialize(criteria);
+
 
         // Si aucun hôtel, on retourne une liste vide
-        if (hotels.isEmpty()) {
+        if (filteredHotels.isEmpty() || filteredSites.isEmpty()) {
+        	System.out.println("liste est vide ici");
             return offers;
         }
-
+        
+        List<Hotel> hotels = filteredHotels;
         // 1) Trier la liste d’hôtels par ordre croissant de pricePerDay
         hotels.sort(Comparator.comparingDouble(Hotel::getPricePerDay));
         // Cela place l’hôtel le moins cher en premier et le plus cher en dernier.
 
         // 2) Générer les offres
         int count = 0;
-        while (count < numberOfOffers && !hotels.isEmpty()) {
+        while (count < numberOfOffers && !hotels.isEmpty() ) {
             // On prend le premier hôtel de la liste (le moins cher actuellement)
             Hotel currentHotel = hotels.get(0);
 
             try {
                 // On construit l’offre avec cet hôtel
                 Offer offer = buildOffer(criteria, currentHotel);
+                if (offer.getFinalPrice()<=criteria.getMaxPrice()) {
                 offers.add(offer);
+                }
             } catch (InsufficientBudgetException e) {
                 // Gestion spécifique de InsufficientBudgetException
                 System.err.println("Impossible de générer l'offre n°" + (count + 1) 
@@ -296,7 +350,7 @@ public class OfferBuilder {
      *
      * Sinon, renvoie l'hôtel trouvé.
      */
-    private static Hotel findNearestHotelIfPossible(Coordinates currentPos, 
+    public static Hotel findNearestHotelIfPossible(Coordinates currentPos, 
                                                     Island currentIsland,
                                                     List<Hotel> hotels,
                                                     double remainingBudget,
