@@ -124,6 +124,7 @@ public class TestFonctionnalites {
         for (Site site : sites) {
         	System.out.println(site.toString()+"\n");
             assertNotNull(site);
+            assertNotNull(site.getDescription());
             assertTrue("La description doit contenir 'banane'",
                     site.getDescription().toLowerCase().contains("banane"));
             }
@@ -151,17 +152,38 @@ public class TestFonctionnalites {
     }
 
     @Test
+    public void testSiteFindHobbiesSites() {
+        List<Site> sites = siteDAO.getHobbiesSites();
+        assertNotNull(sites);
+        for (Site site : sites) {
+        assertNotNull(site);
+        assertEquals(TypeSite.HOBBIES, site.getType());
+        }
+    }
+    
+    @Test
+    public void testSiteFindHistoricSites() {
+        List<Site> sites = siteDAO.getHistoricSites();
+        assertNotNull(sites);
+        for (Site site : sites) {
+        assertNotNull(site);
+        System.out.println(site.getType()+"\n");
+        assertEquals(TypeSite.HISTORIC, site.getType());
+        }
+    }
+    
+    @Test
     public void testSiteFindByCriteria() {
         UserCriteria criteria = new UserCriteria();
         criteria.setTypesite(TypeSite.HOBBIES);
-        criteria.setDescriptionSite("plage");
+        criteria.setDescriptionSite("musée");
         List<Site> sites = siteDAO.findByCriteria(criteria);
         assertNotNull(sites);
         for (Site site : sites) {
             assertEquals(TypeSite.HOBBIES, site.getType());
         assertNotNull(site.getDescription());
         assertTrue("La description doit contenir 'plage'",
-                   site.getDescription().toLowerCase().contains("plage"));
+                   site.getDescription().toLowerCase().contains("musée"));
         }
         // Peut être vide si aucun site ne correspond exactement
     }

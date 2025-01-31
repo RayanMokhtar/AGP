@@ -145,14 +145,14 @@ public class SoutenanceJunit {
     public void testSiteFindByCriteria() {
         UserCriteria criteria = new UserCriteria();
         criteria.setTypesite(TypeSite.HOBBIES);
-        criteria.setDescriptionSite("plage");
+        criteria.setDescriptionSite("musée");
         List<Site> sites = siteDAO.findByCriteria(criteria);
         assertNotNull(sites);
         for (Site site : sites) {
             assertEquals(TypeSite.HOBBIES, site.getType());
         assertNotNull(site.getDescription());
         assertTrue("La description doit contenir 'plage'",
-                   site.getDescription().toLowerCase().contains("plage"));
+                   site.getDescription().toLowerCase().contains("musée"));
         }
         // Peut être vide si aucun site ne correspond exactement
     }

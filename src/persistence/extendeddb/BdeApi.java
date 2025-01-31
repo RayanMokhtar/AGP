@@ -36,7 +36,7 @@ public class BdeApi {
     public String getSiteDescription(int siteId) {
         String description = "N/A";
         try {
-        	Path filePath = Paths.get("AGP_DB", "Description", siteId + ".txt");
+        	Path filePath = Paths.get("C:\\Users\\darkf\\Desktop\\java_workspace\\AGPTEST\\AGP_DB\\Description", siteId + ".txt");
             description = new String(Files.readAllBytes(filePath));
         } catch (IOException e) {
             System.err.println("Erreur lors de la lecture de la description pour le site ID " + siteId + ": " + e.getMessage());
