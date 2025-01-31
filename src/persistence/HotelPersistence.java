@@ -8,7 +8,7 @@ import dao.HotelDAO;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
-import persistence.extendeddb.ExtendedDatabaseAPI;
+import persistence.extendeddb.BdeApi;
 import persistence.extendeddb.jdbc.SQLResult;
 import persistence.extendeddb.jdbc.SQLResults;
 
@@ -20,7 +20,7 @@ public class HotelPersistence implements HotelDAO {
 
     private static SQLResults getHotelsResults(String whereClause) {
         SQLResults sqlResults = null;
-        ExtendedDatabaseAPI database = Database.getConnection();
+        BdeApi database = Database.getConnection();
 
         String query = "SELECT * FROM Hotel";
         if (!whereClause.isEmpty()) {

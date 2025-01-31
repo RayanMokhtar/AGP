@@ -71,11 +71,15 @@ public class OfferBuilder {
 		public void initialize(UserCriteria criteria) {
 	        // Récupérer et filtrer les hôtels et sites en fonction des critères
 	        this.filteredHotels = hotelSelector.getHotelsByCriteria(criteria);
-	        this.filteredSites = siteSelector.getAllSites();
+	        this.filteredSites = siteSelector.getSitesByCriteria(criteria);
 
 	        System.out.println("Hôtels filtrés: " + filteredHotels.size());
 	        System.out.println("Sites filtrés: " + filteredSites.size());
-	    }
+	        System.out.println("liste des Sites :\n");
+	        for (Site site:filteredSites) {
+	        	System.out.println(site);
+	        }
+	        }
 	    
     // ---------------------------------------------------------------------------
     //                1) Méthode pour construire une seule offre
@@ -235,7 +239,8 @@ public class OfferBuilder {
                 // On doit calculer et ajouter le coût du trajet vers cet hôtel
                 double distToHotel = distanceBetween(currentPosition, arrivalHotel.getCoordinates());
                 Transport arrTransport = TransportFactory.getTransport(currentIsland, arrivalHotel.getIsland(), remainingBudget);
-                double arrTime = distToHotel / arrTransport.getSpeedPerKm();
+                @SuppressWarnings("unused")
+				double arrTime = distToHotel / arrTransport.getSpeedPerKm();
                 double arrCost = distToHotel * arrTransport.getPricePerKm();
 
                 dailyCost += arrCost; 
@@ -286,14 +291,16 @@ public class OfferBuilder {
 
         // 2) Générer les offres
         int count = 0;
-        while (count < numberOfOffers && !hotels.isEmpty()) {
+        while (count < numberOfOffers && !hotels.isEmpty() ) {
             // On prend le premier hôtel de la liste (le moins cher actuellement)
             Hotel currentHotel = hotels.get(0);
 
             try {
                 // On construit l’offre avec cet hôtel
                 Offer offer = buildOffer(criteria, currentHotel);
+                if (offer.getFinalPrice()<=criteria.getMaxPrice()) {
                 offers.add(offer);
+                }
             } catch (InsufficientBudgetException e) {
                 // Gestion spécifique de InsufficientBudgetException
                 System.err.println("Impossible de générer l'offre n°" + (count + 1) 

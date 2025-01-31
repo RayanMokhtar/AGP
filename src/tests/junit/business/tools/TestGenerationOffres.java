@@ -1,70 +1,68 @@
 package tests.junit.business.tools;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.List;
 
-import business.Hotel;
-import business.Island;
+import org.junit.Before;
+import org.junit.Test;
+
 import business.Offer;
-import business.Site;
 import business.exceptions.InsufficientBudgetException;
 import business.tools.HotelSelector;
 import business.tools.Intensity;
-import dao.HotelDAO;
-import persistence.HotelPersistence;
-import persistence.IslandPersistence;
-import persistence.SitePersistence;
 import business.tools.OfferBuilder;
 import business.tools.SiteSelector;
+import business.tools.TypeSite;
 import business.tools.UserCriteria;
+import dao.HotelDAO;
 import dao.SiteDAO;
+import persistence.HotelPersistence;
+import persistence.SitePersistence;
+import simulation.SimulationUtils;
 
 public class TestGenerationOffres {
-	
-/**
- * @param args
- * @throws InsufficientBudgetException
- */
-public static void main(String[] args) throws InsufficientBudgetException {
-		
-		
-		SiteDAO siteDAO = new SitePersistence();
-		HotelDAO hotelDAO = new HotelPersistence();
-		
-		HotelSelector hotelselector = new HotelSelector();
-		SiteSelector siteselector = new SiteSelector();
-		
-		hotelselector.setHotelDAO(hotelDAO);
-		siteselector.setSiteDAO(siteDAO);
-		
-	
-		
 
-	
-		
-		
-		
-		OfferBuilder offerbuilder = new OfferBuilder();
-		
-		offerbuilder.setHotelSelector(hotelselector);
-		offerbuilder.setSiteSelector(siteselector);
+    private SiteDAO siteDAO;
+    private HotelDAO hotelDAO;
+    private HotelSelector hotelSelector;
+    private SiteSelector siteSelector;
+    private OfferBuilder offerBuilder;
+
+    @Before
+    public void setUp() {
+        siteDAO = new SitePersistence();
+        hotelDAO = new HotelPersistence();
         
+        hotelSelector = new HotelSelector();
+        siteSelector = new SiteSelector();
+        
+        hotelSelector.setHotelDAO(hotelDAO);
+        siteSelector.setSiteDAO(siteDAO);
+        
+        offerBuilder = new OfferBuilder();
+        offerBuilder.setHotelSelector(hotelSelector);
+        offerBuilder.setSiteSelector(siteSelector);
+    }
+
+    @Test
+    public void testGenerateOffers() throws InsufficientBudgetException {
 		UserCriteria criteria = new UserCriteria();
         criteria.setNbDays(5);
-        criteria.setMinPrice(200);     // budget min
-        criteria.setMaxPrice(20000);    // budget max global
+        criteria.setMinPrice(20);     // budget min
+        criteria.setMaxPrice(2000);    // budget max global
         criteria.setComfort(8);        // heures de transport tolérées/jour
         criteria.setVisitedPlacesPerDay(2);
         criteria.setIntensity(Intensity.MODERE); // ex : MODERE / INTENSE / RELAX
-        criteria.setHotelStars(0);     
+        criteria.setHotelStars(3);     
         criteria.setDescriptionSite("musée");
+        criteria.setTypesite(TypeSite.HISTORIC);
         
-	
-		
-		List<Offer> offers = offerbuilder.generateOffers(criteria,5);
-		
-		for (Offer offer : offers) {
-		    System.out.println("Offer\n");
-		    System.out.println(offer);
-		}
-	}
+        List<Offer> offers = offerBuilder.generateOffers(criteria, 3);
+        assertNotNull(offers);
+        assertTrue(offers.size() > 0);
+        SimulationUtils.displayOffers(offers);
+        
+    }
 }

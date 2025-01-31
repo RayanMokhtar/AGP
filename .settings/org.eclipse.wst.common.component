@@ -2,8 +2,14 @@
         
     <wb-module deploy-name="AGP">
                 
-        <wb-resource deploy-path="/" source-path="/EarContent" tag="defaultRootSource"/>
-        <wb-resource deploy-path="/" source-path="/src"/>
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+                
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/AGP_DB"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+                
+        <property name="context-root" value="AGP"/>
+                
+        <property name="java-output-path" value="/AGP/build/classes"/>
             
     </wb-module>
     

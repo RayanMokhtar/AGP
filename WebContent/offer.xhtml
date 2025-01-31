@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	
+
+<h:head>
+	<link rel="stylesheet" type="text/css" href="styles2.css" />
+	<title>Offres de voyages</title>
+	<link rel="icon" type="image/png" href="ile.png" />
+</h:head>
+
+<h:body>
+
+	<div class="background"></div>
+
+	<h1>Offres de voyages</h1>
+
+    <h:form>
+            <!-- Nombre de jours -->
+            <p:outputLabel for="nbDays" value="Nombre de jours :" />
+            <p:inputText id="nbDays" value="#{entryBean.nbDays}" type="number" placeholder="Entrez le nombre de jours"/>
+           
+           <!-- Prix minimum -->
+        
+            <p:outputLabel for="minPrice" value="Prix minimum :" />
+            <p:inputNumber id="minPrice" value="#{entryBean.minPrice}" />
+          
+          <!-- Prix maximum -->
+            <p:outputLabel for="maxPrice" value="Prix maximum :" />
+            <p:inputNumber id="maxPrice" value="#{entryBean.maxPrice}"/>
+            
+            <!-- Confort -->
+        
+            <p:outputLabel for="comfort" value="Confort :" />
+            <p:inputNumber id="comfort" value="#{entryBean.comfort}" />
+            
+            <!-- Intensité -->
+            
+                <p:outputLabel for="intensity" value="Intensité (nombre d'excursions) :" />
+                <p:selectOneMenu id="intensity" value="#{entryBean.intensity}">
+        
+                    <f:selectItem itemValue="relax" itemLabel="Relax" />
+                    <f:selectItem itemValue="modere" itemLabel="Modéré" />
+                    <f:selectItem itemValue="intense" itemLabel="Intense" />
+                </p:selectOneMenu>
+           
+
+            <!-- Description du site -->
+            
+                <p:outputLabel for="descriptionSite" value="Description du site :" />
+                <p:inputText id="descriptionSite" value="#{entryBean.descriptionSite}" placeholder="Entrez les mots-clés du site"/>
+           
+
+            <!-- Lieux visités par jour -->
+            
+                <p:outputLabel for="visitedPlacesPerDay" value="Lieux à visiter par jour :" />
+                <p:inputText id="visitedPlacesPerDay" value="#{entryBean.visitedPlacesPerDay}" type="number" placeholder="Entrez le nombre de sites a visite pendant votre séjour" />
+         
+
+            <!-- Type de site -->
+		
+			<p:outputLabel for="typeSite" value="Type de site :" />
+			<p:selectOneMenu id="typeSite" value="#{entryBean.typeSite}">
+	
+				<f:selectItem itemValue="Historic" itemLabel="Historique" />
+				<f:selectItem itemValue="Hobbies" itemLabel="Loisir" />
+			</p:selectOneMenu>
+			
+
+			<!-- Nombre d'étoiles de l'hôtel -->
+			
+				<p:outputLabel for="starsHotel"
+					value="Nombre d'étoiles de l'hôtel :" />
+				<p:selectOneMenu id="starsHotel" value="#{entryBean.hotelStars}">
+					
+					<f:selectItem itemValue="1" itemLabel="1 étoile" />
+					<f:selectItem itemValue="2" itemLabel="2 étoiles" />
+					<f:selectItem itemValue="3" itemLabel="3 étoiles" />
+					<f:selectItem itemValue="4" itemLabel="4 étoiles" />
+					<f:selectItem itemValue="5" itemLabel="5 étoiles" />
+				</p:selectOneMenu>
+            
+           
+            <h:commandButton class="button" value="Soumettre" action="#{entryBean.submit}" />
+        </h:form>
+        
+
+   
+
+
+
+<h:form>
+    <ui:repeat value="#{entryBean.results}" var="offer" varStatus="status">
+        <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
+            <h2>Offre #{status.index + 1}</h2>
+            <h3>Nombre de jours: #{offer.nbDays}</h3>
+
+            <p><strong>Excursions :</strong></p>
+            <ui:repeat value="#{offer.excursions}" var="excursion" varStatus="excursionStatus">
+                <div style="margin-left: 15px; padding: 5px;">
+                    <h4>Excursion Jour #{excursionStatus.index + 1}</h4>
+                    <p>- Départ de l'hôtel : #{excursion.hotelDeparture.name}</p>
+                    <p>- Arrivée à l'hôtel : #{excursion.hotelArrival.name}</p>
+                    <p>- Coût de l'excursion : #{excursion.excursionCost} €</p>
+                    <p>- Lieux visités :</p>
+                    <ul>
+                        <ui:repeat value="#{excursion.placesVisited}" var="visit">
+                            <li>#{visit.site.name} (Transport: #{visit.transport.getTransportType()}, Coût: #{visit.costVisit} €, Durée: #{visit.durationVisit} heures)</li>
+                        </ui:repeat>
+                    </ul>
+                </div>
+            </ui:repeat>
+
+            <p><strong>Prix final :</strong> #{offer.finalPrice} €</p>
+        </div>
+    </ui:repeat>
+</h:form>
+
+</h:body>
+
+</html>
