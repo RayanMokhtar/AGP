@@ -8,7 +8,6 @@ import org.junit.runners.Suite;
     BDeTests.class,
     TestFonctionnalites.class,
     tests.junit.business.tools.TestGenerationOffres.class,
-    SoutenanceJunit.class
 })
 public class AllTestsSuite {
 }

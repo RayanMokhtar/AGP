@@ -44,7 +44,11 @@ public class SitePersistence implements SiteDAO {
     private static Site getSiteObject(CombinedResult tuple) {
         try {
             int id = Integer.parseInt(tuple.getAttribute("id"));
-            TypeSite type = TypeSite.fromString(tuple.getAttribute("type"));
+            TypeSite type;
+            if (tuple.getAttribute("type").toString().toLowerCase().equals("historic")){
+            	type = TypeSite.HISTORIC;
+            }
+            else { type = TypeSite.HOBBIES;}
             String name = tuple.getAttribute("name");
             int duration = (int) Double.parseDouble(tuple.getAttribute("duration"));
             double entryPrice = Double.parseDouble(tuple.getAttribute("entryPrice"));
@@ -74,9 +78,9 @@ public class SitePersistence implements SiteDAO {
         return sites;
     }
 
-    public static List<Site> getActivitySites(String keywords) {
+    public List<Site> getHobbiesSites() {
         List<Site> sites = new LinkedList<>();
-        CombinedResults tuples = getSitesResults("type = 'activity'", keywords);
+        CombinedResults tuples = getSitesResults("type = 'hobbies'", "");
         for (CombinedResult tuple : tuples) {
             Site s = getSiteObject(tuple);
             if (s != null) {
@@ -86,9 +90,9 @@ public class SitePersistence implements SiteDAO {
         return sites;
     }
 
-    public static List<Site> getHistoricSites(String keywords) {
+    public List<Site> getHistoricSites() {
         List<Site> sites = new LinkedList<>();
-        CombinedResults tuples = getSitesResults("type = 'historic'", keywords);
+        CombinedResults tuples = getSitesResults("type = 'historic'", "");
         for (CombinedResult tuple : tuples) {
             Site s = getSiteObject(tuple);
             if (s != null) {

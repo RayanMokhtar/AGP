@@ -23,4 +23,10 @@ public interface SiteDAO {
 
     // Récupère une liste de sites qui correspondent aux critères de l'utilisateur
     List<Site> findByCriteria(UserCriteria criteria);
+    
+    List<Site> getHistoricSites();
+    
+    List<Site> getHobbiesSites();
+    
+    
 }

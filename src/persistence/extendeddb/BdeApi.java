@@ -1,6 +1,7 @@
 package persistence.extendeddb;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,7 +17,12 @@ import persistence.extendeddb.lucene.TextAccess;
 import persistence.extendeddb.lucene.TextualResult;
 import persistence.extendeddb.lucene.TextualResults;
 
-
+/**
+ * ExtendedDatabaseAPI class
+ * 
+ * Script de test des méthodes disponible dans test.DemoBDe.java
+ * 
+ */
 @SuppressWarnings("unused")
 public class BdeApi {
     private TextualConfiguration textualConfiguration;
@@ -31,13 +37,18 @@ public class BdeApi {
     public String getSiteDescription(int siteId) {
         String description = "N/A";
         try {
-        	Path filePath = Paths.get("AGP_DB", "Description", siteId + ".txt");
+        	Path filePath = Paths.get("C:\\Users\\darkf\\Desktop\\java_workspace\\AGPTEST\\AGP_DB\\Description", siteId + ".txt");
             description = new String(Files.readAllBytes(filePath));
         } catch (IOException e) {
             System.err.println("Erreur lors de la lecture de la description pour le site ID " + siteId + ": " + e.getMessage());
         }
         return description;
     }
+
+    public void createDescriptionFile(int siteId, String content) throws IOException {
+    Path filePath = Paths.get("C:\\Users\\darkf\\Desktop\\java_workspace\\AGP\\AGP_DB\\Description", siteId + ".txt");
+    Files.write(filePath, content.getBytes(StandardCharsets.UTF_8));
+}
 
   
     public TextualResults textualQuery(String query) throws IOException, ParseException {
@@ -70,7 +81,13 @@ public class BdeApi {
         }
     }
 
-   
+    /**
+     * Method used to execute mixed queries on the database.
+     * 
+     * @param combinedQuery A mixed query.
+     * @throws SQLException, IOException, ParseException
+     * @return MixedResults
+     */
     public CombinedResults combinedQuery(String combinedQuery) throws SQLException, IOException, ParseException {
         String sqlQuery;
         String[] partsQuery;

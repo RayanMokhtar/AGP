@@ -6,11 +6,7 @@ import java.util.List;
 
 import business.Island;
 import dao.IslandDAO;
-<<<<<<< HEAD
-import persistence.extendeddb.ExtendedDatabaseAPI;
-=======
 import persistence.extendeddb.BdeApi;
->>>>>>> Test
 import persistence.extendeddb.jdbc.SQLResult;
 import persistence.extendeddb.jdbc.SQLResults;
 
@@ -22,11 +18,7 @@ public class IslandPersistence implements IslandDAO {
 
     private static SQLResults getIslandsResults() {
         SQLResults sqlResults = null;
-<<<<<<< HEAD
-        ExtendedDatabaseAPI database = Database.getConnection();
-=======
         BdeApi database = Database.getConnection();
->>>>>>> Test
         try {
             sqlResults = database.simpleQuery("SELECT * FROM Island");
         } catch (SQLException e) {
@@ -51,11 +43,7 @@ public class IslandPersistence implements IslandDAO {
     }
 
     public static Island getIslandById(int id) {
-<<<<<<< HEAD
-        ExtendedDatabaseAPI database = Database.getConnection();
-=======
         BdeApi database = Database.getConnection();
->>>>>>> Test
         SQLResults results = null;
         try {
             results = database.simpleQuery("SELECT * FROM Island WHERE id = " + id);
@@ -76,11 +64,7 @@ public class IslandPersistence implements IslandDAO {
     @Override
     public Island findByName(String name) {
         Island result = null;
-<<<<<<< HEAD
-        ExtendedDatabaseAPI database = Database.getConnection();
-=======
         BdeApi database = Database.getConnection();
->>>>>>> Test
         try {
             SQLResults results = database.simpleQuery("SELECT * FROM Island WHERE name = '" + name + "'");
             if (results.hasNext()) {
@@ -98,11 +82,7 @@ public class IslandPersistence implements IslandDAO {
         if (island == null) {
             return islands;
         }
-<<<<<<< HEAD
-        ExtendedDatabaseAPI database = Database.getConnection();
-=======
         BdeApi database = Database.getConnection();
->>>>>>> Test
         try {
             SQLResults results = database.simpleQuery("SELECT * FROM Island WHERE id = " + island.getId());
             while (results.hasNext()) {

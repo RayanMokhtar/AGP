@@ -69,7 +69,6 @@ public class CombinedResults implements Iterable<CombinedResult> {
         return tuples.iterator();
     }
 
-    // Ajout de la méthode isEmpty()
     public boolean isEmpty() {
         return tuples.isEmpty();
     }

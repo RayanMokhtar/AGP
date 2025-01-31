@@ -70,14 +70,6 @@ public class OfferBuilder {
 
 		public void initialize(UserCriteria criteria) {
 	        // Récupérer et filtrer les hôtels et sites en fonction des critères
-<<<<<<< HEAD
-	        this.filteredHotels = hotelSelector.getAllHotels();
-	        this.filteredSites = siteSelector.getAllSites();
-
-	        System.out.println("Hôtels filtrés: " + filteredHotels.size());
-	        System.out.println("Sites filtrés: " + filteredSites.size());
-	    }
-=======
 	        this.filteredHotels = hotelSelector.getHotelsByCriteria(criteria);
 	        this.filteredSites = siteSelector.getSitesByCriteria(criteria);
 
@@ -88,7 +80,6 @@ public class OfferBuilder {
 	        	System.out.println(site);
 	        }
 	        }
->>>>>>> Test
 	    
     // ---------------------------------------------------------------------------
     //                1) Méthode pour construire une seule offre
