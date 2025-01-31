@@ -2,13 +2,14 @@ package beans;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import business.Hotel;
 import business.Offer;
+import business.Site;
 import business.tools.HotelSelector;
 import business.tools.Intensity;
 import business.tools.TypeSite;
@@ -18,6 +19,7 @@ import dao.SiteDAO;
 import persistence.HotelPersistence;
 import persistence.SitePersistence;
 import business.tools.OfferBuilder;
+import business.tools.SearchCriteria;
 import business.tools.SiteSelector;
 
 @ManagedBean
@@ -46,8 +48,28 @@ public class EntryBean implements Serializable{
 	private Integer hotelStars;
 	private String typeSite;
 	
+	private String critere;
+	private String valeur;
 	
+	public String getCritere() {
+		return critere;
+	}
+
+	public String getValeur() {
+		return valeur;
+	}
+
+	public void setCritere(String critere) {
+		this.critere = critere;
+	}
+
+	public void setValeur(String valeur) {
+		this.valeur = valeur;
+	}
+
 	private List<Offer> results = new ArrayList<>();
+	private List<Hotel> hotelResults;
+	private Object siteResults;
 
     public List<Offer> getResults() {
         return results;
@@ -177,10 +199,40 @@ public class EntryBean implements Serializable{
 	public void setHotelStars(Integer hotelStars) {
 		this.hotelStars = hotelStars;
 	}
+	
 
-	public void search() {
-		System.out.println("nbr de jours" + nbDays);
-	}
+    public String search() {
+    	SearchCriteria searchCriteria = new SearchCriteria(); 
+        searchCriteria.getSearchType(critere, valeur);
+        Object results = searchCriteria.getSearchType(this.critere, this.valeur);
+        if (results instanceof List<?>) {
+            if (!((List<?>) results).isEmpty()) {
+                if (((List<?>) results).get(0) instanceof Hotel) {
+                    this.hotelResults = (List<Hotel>) results;
+                    this.siteResults = null;
+                    System.out.println("cas1");
+                    System.out.println(hotelResults);
+                    System.out.println(siteResults);
+                } else if (((List<?>) results).get(0) instanceof Site) {
+                    System.out.println("cas2");
+                    this.siteResults = (List<Site>) results;
+                    this.hotelResults = null;
+                    System.out.println(hotelResults);
+                    System.out.println(siteResults);
+                }
+            } else {
+            	System.out.println("cas3");
+                this.hotelResults = null;
+                this.siteResults = null;
+            }
+            
+        }
+     System.out.println("cas4");
+       
+
+
+    return "null";
+    }
 
 	// Méthode de soumission
 	public String submit() {
@@ -240,33 +292,9 @@ public class EntryBean implements Serializable{
 		    System.out.println("Offer\n");
 		    System.out.println(offer);
 		}
+		
 	  
 		return "null";
 	}
-	
-	 // Méthode pour soumettre les critères de recherche des hôtels
-    public String searchHotels() {
-        System.out.println("Recherche d'Hôtels:");
-        System.out.println("Île: " + island);
-        System.out.println("Nom de l'hôtel: " + hotelName);
-        System.out.println("Prix minimum: " + minPrice);
-        System.out.println("Prix maximum: " + maxPrice);
-        System.out.println("Nombre d'étoiles: " + hotelStars);
-
-        return "null"; // Reste sur la même page après la recherche
-    }
-
-	 // Méthode pour soumettre les critères de recherche des hôtels
-      public String searchSites() {
-        System.out.println("Recherche de Sites:");
-        System.out.println("Île: " + island);
-        System.out.println("Mot-clé du site: " + siteDescription);
-        System.out.println("Type de site: " + typeSite);
-        System.out.println("Prix minimum: " + minPrice);
-        System.out.println("Prix maximum: " + maxPrice);
-
-
-        return "null"; // Reste sur la même page après la recherche
-    }
 	
 }

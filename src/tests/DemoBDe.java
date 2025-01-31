@@ -37,7 +37,7 @@ public class DemoBDe {
 			index.createIndex(true);
 			
 			// (Optional) Write a document in sourcePath
-			index.writeDocument("100", "Description\nOn multiple lines...");
+			index.writeDocument("150", "ah timsah zridh negh khat...");
 			
 			index.addDocuments(sourcePath);
 			index.close();

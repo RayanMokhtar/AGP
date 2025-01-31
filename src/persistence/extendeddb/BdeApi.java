@@ -16,12 +16,7 @@ import persistence.extendeddb.lucene.TextAccess;
 import persistence.extendeddb.lucene.TextualResult;
 import persistence.extendeddb.lucene.TextualResults;
 
-/**
- * ExtendedDatabaseAPI class
- * 
- * This API allows you to query the database through simple
- * or compound queries.
- */
+
 @SuppressWarnings("unused")
 public class BdeApi {
     private TextualConfiguration textualConfiguration;
@@ -75,13 +70,7 @@ public class BdeApi {
         }
     }
 
-    /**
-     * Method used to execute mixed queries on the database.
-     * 
-     * @param combinedQuery A mixed query.
-     * @throws SQLException, IOException, ParseException
-     * @return MixedResults
-     */
+   
     public CombinedResults combinedQuery(String combinedQuery) throws SQLException, IOException, ParseException {
         String sqlQuery;
         String[] partsQuery;

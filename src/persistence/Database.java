@@ -19,17 +19,17 @@ public class Database {
     private static BdeApi connection;
 
     // Configuration des requêtes textuelles
-    private static Path sourcePath = Paths.get("C:\\Users\\darkf\\Desktop\\java_workspace\\AGP\\AGP_DB\\Description");
-    private static Path indexPath = Paths.get("C:\\Users\\darkf\\Desktop\\java_workspace\\AGP\\AGP_DB\\Index");
+    private static Path sourcePath = Paths.get("C:\\Users\\mokht\\Desktop\\AGP\\AGP\\AGP_DB\\Description");
+    private static Path indexPath = Paths.get("C:\\Users\\mokht\\Desktop\\AGP\\AGP\\AGP_DB\\Index");
     private static String table = "Site";
     private static String joinKey = "id";
-
+    
     // Configuration SQL pour les connexions classiques
     private static String system = "mysql";
     private static String host = "mysql-agp-antilles.alwaysdata.net";
     private static String base = "agp-antilles_database";
-    private static String user = "396335_wassim"; // Assurez-vous que le nom d'utilisateur est correct
-    private static String password = "Pmlpmlpmlk000"; // Assurez-vous que le mot de passe est correct
+    private static String user = "396335_wassim";
+    private static String password = "Pmlpmlpmlk000"; 
 
     private Database() {
         // Constructeur privé pour le pattern Singleton

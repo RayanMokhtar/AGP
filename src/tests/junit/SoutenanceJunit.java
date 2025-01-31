@@ -37,8 +37,8 @@ public class SoutenanceJunit {
     private BdeApi api;
 
     // On peut récupérer ces chemins depuis le code existant
-    private Path sourcePath = Paths.get("C:\\Users\\darkf\\Desktop\\java_workspace\\AGP\\AGP_DB\\Description");
-    private Path indexPath  = Paths.get("C:\\Users\\darkf\\Desktop\\java_workspace\\AGP\\AGP_DB\\Index");
+    private static Path sourcePath = Paths.get("C:\\Users\\mokht\\Desktop\\AGP\\AGP\\AGP_DB\\Description");
+    private static Path indexPath = Paths.get("C:\\Users\\mokht\\Desktop\\AGP\\AGP\\AGP_DB\\Index");
 
     private IslandDAO islandDAO;
     private HotelDAO hotelDAO;
@@ -53,6 +53,7 @@ public class SoutenanceJunit {
                 "396335_wassim",
                 "Pmlpmlpmlk000"
            );
+        // Configuration textuelle 
            TextualConfiguration textualConfiguration = new TextualConfiguration(
                 sourcePath,
                 indexPath,
@@ -93,7 +94,7 @@ public class SoutenanceJunit {
     }
 
     @Test
-    public void testMixedQuery() {
+    public void testCombinedQuery() {
         try {
             // Requête mixte fictive : "SELECT * FROM Site WITH test"
             CombinedResults results = api.combinedQuery("SELECT id, name, type, duration, entryPrice, latitude, longitude, idIsland FROM Site WITH banane");
@@ -156,4 +157,6 @@ public class SoutenanceJunit {
         }
         // Peut être vide si aucun site ne correspond exactement
     }
+    
+
 }
