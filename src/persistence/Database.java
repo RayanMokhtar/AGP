@@ -26,10 +26,10 @@ public class Database {
 
     // Configuration SQL pour les connexions classiques
     private static String system = "mysql";
-    private static String host = "mysql-agp-antilles.alwaysdata.net";
-    private static String base = "agp-antilles_database";
-    private static String user = "396335_wassim";
-    private static String password = "Pmlpmlpmlk000";
+    private static String host = "";
+    private static String base = "";
+    private static String user = "";
+    private static String password = "";
 
     private Database() {
         // Constructeur privé pour le pattern Singleton
