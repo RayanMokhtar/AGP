@@ -49,10 +49,10 @@ public class DemoBDe {
 		
 		SQLConfiguration sqlConfiguration = new SQLConfiguration(
 				"mysql",
-				"mysql-agp-antilles.alwaysdata.net",
-				"agp-antilles_database",
-				"396335",
-				"Pmlpmlpmlk000"
+				"",
+				"",
+				"",
+				""
 		);
 		
 		TextualConfiguration textualConfiguration = new TextualConfiguration(

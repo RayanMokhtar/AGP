@@ -47,11 +47,11 @@ import persistence.extendeddb.lucene.TextualResults;
 		
 		
 		SQLConfiguration sqlConfiguration = new SQLConfiguration(  // conf SQL pour connexion a la base de données
-				"mysql",
-				"mysql-agp-antilles.alwaysdata.net",
-				"agp-antilles_database",
-				"396335",
-				"Pmlpmlpmlk000"
+				"",
+				"",
+				"",
+				"",
+				""
 		);
 		
 		TextualConfiguration textualConfiguration = new TextualConfiguration(
